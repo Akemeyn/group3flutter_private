@@ -14,7 +14,7 @@ class WelcomeScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 15, 83, 34),
+      backgroundColor: ColorController.soDarkJungleGreen,
       body: Container(
         height: screenHeight,
         width: screenWidth,
@@ -22,7 +22,7 @@ class WelcomeScreen extends StatelessWidget {
           image: DecorationImage(
             image: AssetImage('assets/background.png'),
             fit: BoxFit.cover,
-            opacity: 0.175,
+            opacity: 0.150,
           ),
         ),
         child: Center(
