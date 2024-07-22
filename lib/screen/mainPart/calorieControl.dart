@@ -1,20 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const CalorieControlApp());
-}
-
-class CalorieControlApp extends StatelessWidget {
-  const CalorieControlApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: CalorieControlScreen(),
-    );
-  }
-}
-
 class CalorieControlScreen extends StatefulWidget {
   const CalorieControlScreen({super.key});
 

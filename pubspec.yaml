@@ -1,10 +1,10 @@
 name: nutrijourney
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 version: 0.0.1
 
 environment:
-  sdk: '>=3.0.6 <4.0.0'
+  sdk: ">=3.0.6 <4.0.0"
 
 dependencies:
   flutter:
@@ -16,6 +16,9 @@ dependencies:
   firebase_core: ^3.2.0
   firebase_auth: ^5.1.2
   cloud_firestore: ^5.1.0
+  awesome_number_picker: ^0.0.4
+  simple_barcode_scanner: ^0.0.8
+  flutter_barcode_scanner: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -26,4 +29,4 @@ flutter:
   uses-material-design: true
 
   assets:
-  - assets/
+    - assets/

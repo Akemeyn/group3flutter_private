@@ -4,6 +4,8 @@ import 'package:nutrijourney/components/colorController.dart';
 import 'package:nutrijourney/components/componentEditor.dart';
 import 'package:get/get.dart';
 import 'package:nutrijourney/screen/loginPart/registerScreen.dart';
+import 'package:nutrijourney/screen/mainPart/chatBot.dart';
+import 'package:nutrijourney/screen/mainPart/mainScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -129,7 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               try {
                                 final userResult =
                                     await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-                                print(userResult.user!.email);
+                                if(userResult.user?.email == email){
+                                  Get.offAll(() => const ChatScreen());
+                                }
                               } catch (e) {
                                 print(e.toString());
                               }
