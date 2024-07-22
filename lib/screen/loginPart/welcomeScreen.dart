@@ -49,10 +49,11 @@ class WelcomeScreen extends StatelessWidget {
                 height: screenHeight * 0.07,
                 child: OutlinedButton(
                   onPressed: () {
-                    Get.to(() => RegisterScreen());
+                    Get.to(() => const RegisterScreen());
                   },
                   style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all<Color>(Colors.white.withOpacity(0.4)),
+                    backgroundColor: WidgetStateProperty.all<Color>(
+                        Colors.white.withOpacity(0.4)),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24.0),
@@ -62,7 +63,10 @@ class WelcomeScreen extends StatelessWidget {
                   child: Text(
                     'Serüvenine başla',
                     style: GoogleFonts.notoSans(
-                      textStyle: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                      textStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
@@ -71,7 +75,10 @@ class WelcomeScreen extends StatelessWidget {
                 onPressed: () {
                   Get.to(() => const LoginScreen());
                 },
-                child: Text('Zaten bir hesabım var', style: GoogleFonts.notoSans(fontSize: 16),),
+                child: Text(
+                  'Zaten bir hesabım var',
+                  style: GoogleFonts.notoSans(fontSize: 16),
+                ),
                 style: ButtonStyle(
                   foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
                 ),

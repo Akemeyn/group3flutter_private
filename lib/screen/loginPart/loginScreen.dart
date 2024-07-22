@@ -4,7 +4,6 @@ import 'package:nutrijourney/components/colorController.dart';
 import 'package:nutrijourney/components/componentEditor.dart';
 import 'package:get/get.dart';
 import 'package:nutrijourney/screen/loginPart/registerScreen.dart';
-import 'package:nutrijourney/screen/mainPart/chatBot.dart';
 import 'package:nutrijourney/screen/mainPart/mainScreen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -45,7 +44,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
-              padding: EdgeInsets.only(top: screenHeight * 0.1 - _keyboardVisibleHeight * 0.26),
+              padding: EdgeInsets.only(
+                  top: screenHeight * 0.1 - _keyboardVisibleHeight * 0.26),
               child: SingleChildScrollView(
                 child: Form(
                   key: _formKey,
@@ -53,13 +53,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       ComponentEditor.emptySpace(screenHeight * 0.3),
                       Text("Hoşgeldin",
-                          style: ComponentEditor.specialText(40, ColorController.soDarkJungleGreen, FontWeight.bold)),
+                          style: ComponentEditor.specialText(
+                              40,
+                              ColorController.soDarkJungleGreen,
+                              FontWeight.bold)),
                       ComponentEditor.emptySpace(screenHeight * 0.005),
                       Text("Serüvenine kaldığın yerden devam et",
-                          style: ComponentEditor.specialText(16, ColorController.soDarkJungleGreen)),
+                          style: ComponentEditor.specialText(
+                              16, ColorController.soDarkJungleGreen)),
                       ComponentEditor.emptySpace(screenHeight * 0.05),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.075),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.075),
                         child: ComponentEditor.textFieldInStart(
                             "Kullanıcı Adı",
                             const Icon(
@@ -77,7 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       ComponentEditor.emptySpace(screenHeight * 0.02),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.075),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.075),
                         child: ComponentEditor.passFieldInStart(
                             "Şifre",
                             const Icon(
@@ -87,7 +93,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             passwordVisible,
                             TextInputType.visiblePassword,
                             IconButton(
-                              icon: Icon(passwordVisible ? Icons.visibility_off : Icons.visibility),
+                              icon: Icon(passwordVisible
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
                               onPressed: () {
                                 setState(() {
                                   passwordVisible = !passwordVisible;
@@ -102,7 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         }),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.05),
                         child: Row(
                           children: [
                             TextButton(
@@ -112,7 +121,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Text(
                                 'Şifremi unuttum',
                                 style: ComponentEditor.specialText(
-                                    screenWidth * 0.035, ColorController.soDarkJungleGreen, FontWeight.bold),
+                                    screenWidth * 0.035,
+                                    ColorController.soDarkJungleGreen,
+                                    FontWeight.bold),
                               ),
                             ),
                           ],
@@ -129,10 +140,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               String email = usernameController.text;
                               String password = passwordController.text;
                               try {
-                                final userResult =
-                                    await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-                                if(userResult.user?.email == email){
-                                  Get.offAll(() => const ChatScreen());
+                                final userResult = await firebaseAuth
+                                    .signInWithEmailAndPassword(
+                                        email: email, password: password);
+                                if (userResult.user?.email == email) {
+                                  Get.offAll(() => const HomeScreen());
                                 }
                               } catch (e) {
                                 print(e.toString());
@@ -140,9 +152,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                           },
                           style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStateProperty.all<Color>(ColorController.soDarkJungleGreen.withOpacity(0.85)),
-                            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                            backgroundColor: WidgetStateProperty.all<Color>(
+                                ColorController.soDarkJungleGreen
+                                    .withOpacity(0.85)),
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(24.0),
                               ),
@@ -150,7 +164,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           child: Text(
                             'Giriş Yap',
-                            style: ComponentEditor.specialText(20, Colors.white),
+                            style:
+                                ComponentEditor.specialText(20, Colors.white),
                           ),
                         ),
                       ),
@@ -159,16 +174,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           Text(
                             "Bir hesabın yok mu?",
-                            style: ComponentEditor.specialText(16, Colors.black.withOpacity(0.6)),
+                            style: ComponentEditor.specialText(
+                                16, Colors.black.withOpacity(0.6)),
                           ),
                           TextButton(
                               onPressed: () {
-                                Get.to(() => RegisterScreen());
+                                Get.to(() => const RegisterScreen());
                               },
                               child: Text(
                                 "Kayıt Ol",
-                                style:
-                                    ComponentEditor.specialText(18, ColorController.soDarkJungleGreen, FontWeight.bold),
+                                style: ComponentEditor.specialText(
+                                    18,
+                                    ColorController.soDarkJungleGreen,
+                                    FontWeight.bold),
                               ))
                         ],
                       ),

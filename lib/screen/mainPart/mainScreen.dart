@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:nutrijourney/screen/mainPart/chatbot.dart';
+import 'package:nutrijourney/screen/mainPart/tarif_anasayfa.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -68,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            'Healthy food for you',
+                            'Nutrimate',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16.0,
@@ -76,14 +80,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           const SizedBox(height: 8.0),
                           const Text(
-                            'Etiam in ex nec lobortis food luctus. Etiam iaculis healthy.',
+                            'Sağlıklı Yaşam İçin Yapay Zekamızdan Yardım Alabilirsin',
                             style: TextStyle(
                               fontSize: 14.0,
                             ),
                           ),
                           const SizedBox(height: 8.0),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.to(() => const ChatScreen());
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green, // Background color
                               foregroundColor: Colors.white, // Text color
@@ -91,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                             ),
-                            child: const Text('See all food'),
+                            child: const Text('-> Nutrimate <-'),
                           ),
                         ],
                       ),
@@ -176,10 +182,6 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Anasayfa',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Sepet',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.data_usage),
             label: 'Detay',
           ),
@@ -190,7 +192,22 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Get.to(() => const HomeScreen());
+              break;
+            case 1:
+              Get.to(() => const RecipeListScreen());
+              break;
+            case 2:
+              // Get.to(() => ProfilScreen());
+              break;
+          }
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
       ),
     );
   }

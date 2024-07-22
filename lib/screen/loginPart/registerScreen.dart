@@ -6,6 +6,8 @@ import 'package:nutrijourney/components/colorController.dart';
 import 'package:nutrijourney/screen/loginPart/loginScreen.dart';
 
 class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
@@ -54,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: IconButton(
                           icon: const Icon(Icons.arrow_back_ios_new_rounded),
                           color: ColorController.darkJungleGreen,
-                          style: ButtonStyle(),
+                          style: const ButtonStyle(),
                           onPressed: () {
                             Get.back();
                           },
@@ -65,13 +67,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 ComponentEditor.emptySpace(screenHeight * 0.02),
                 Text("Kayıt Ol",
-                    style: ComponentEditor.specialText(40, ColorController.soDarkJungleGreen, FontWeight.bold)),
+                    style: ComponentEditor.specialText(40,
+                        ColorController.soDarkJungleGreen, FontWeight.bold)),
                 ComponentEditor.emptySpace(screenHeight * 0.005),
                 Text("Kendi serüveninin ilk adımını at",
-                    style: ComponentEditor.specialText(16, ColorController.soDarkJungleGreen)),
+                    style: ComponentEditor.specialText(
+                        16, ColorController.soDarkJungleGreen)),
                 ComponentEditor.emptySpace(screenHeight * 0.05),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.075),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: screenWidth * 0.075),
                   child: ComponentEditor.textFieldInStart(
                       "Kullanıcı Adı",
                       const Icon(
@@ -89,7 +94,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 ComponentEditor.emptySpace(screenHeight * 0.02),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.075),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: screenWidth * 0.075),
                   child: ComponentEditor.textFieldInStart(
                       "E-Posta",
                       const Icon(
@@ -107,7 +113,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 ComponentEditor.emptySpace(screenHeight * 0.02),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.075),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: screenWidth * 0.075),
                   child: ComponentEditor.passFieldInStart(
                       "Şifre",
                       const Icon(
@@ -117,7 +124,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       passwordVisible,
                       TextInputType.visiblePassword,
                       IconButton(
-                        icon: Icon(passwordVisible ? Icons.visibility_off : Icons.visibility),
+                        icon: Icon(passwordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility),
                         onPressed: () {
                           setState(() {
                             passwordVisible = !passwordVisible;
@@ -143,10 +152,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         String password = passwordController.text;
                         try {
                           var userResult =
-                              await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+                              await firebaseAuth.createUserWithEmailAndPassword(
+                                  email: email, password: password);
                           _formKey.currentState!.reset();
                           ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(content: Text("Başarılı şekilde kayıt olundu...",)));
+                              .showSnackBar(const SnackBar(
+                                  content: Text(
+                            "Başarılı şekilde kayıt olundu...",
+                          )));
                           Get.to(const LoginScreen());
                         } catch (e) {
                           print(e);
@@ -154,8 +167,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       }
                     },
                     style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all<Color>(ColorController.soDarkJungleGreen.withOpacity(0.85)),
+                      backgroundColor: WidgetStateProperty.all<Color>(
+                          ColorController.soDarkJungleGreen.withOpacity(0.85)),
                       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(24.0),
@@ -168,24 +181,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-                Text('Or continue with'),
+                const Text('Or continue with'),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.facebook),
+                      icon: const Icon(Icons.facebook),
                       onPressed: () {
                         // Add Facebook login logic
                       },
                     ),
                     IconButton(
-                      icon: Icon(Icons.android),
+                      icon: const Icon(Icons.android),
                       onPressed: () {
                         // Add Google login logic
                       },
                     ),
                     IconButton(
-                      icon: Icon(Icons.apple),
+                      icon: const Icon(Icons.apple),
                       onPressed: () {
                         // Add Apple login logic
                       },
@@ -198,7 +211,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     Text(
                       "Halihazırda bir hesabın var mı?",
-                      style: ComponentEditor.specialText(16, Colors.black.withOpacity(0.6)),
+                      style: ComponentEditor.specialText(
+                          16, Colors.black.withOpacity(0.6)),
                     ),
                     TextButton(
                         onPressed: () {
@@ -206,7 +220,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                         child: Text(
                           "Giriş Yap",
-                          style: ComponentEditor.specialText(18, ColorController.soDarkJungleGreen, FontWeight.bold),
+                          style: ComponentEditor.specialText(
+                              18,
+                              ColorController.soDarkJungleGreen,
+                              FontWeight.bold),
                         ))
                   ],
                 ),

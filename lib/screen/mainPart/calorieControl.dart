@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:nutrijourney/screen/mainPart/mainScreen.dart';
+import 'package:nutrijourney/screen/mainPart/tarif_anasayfa.dart';
 
 class CalorieControlScreen extends StatefulWidget {
   const CalorieControlScreen({super.key});
@@ -94,10 +98,6 @@ class _CalorieControlScreenState extends State<CalorieControlScreen> {
             label: 'Anasayfa',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Sepet',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.data_usage),
             label: 'Detay',
           ),
@@ -108,7 +108,22 @@ class _CalorieControlScreenState extends State<CalorieControlScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Get.to(() => const HomeScreen());
+              break;
+            case 1:
+              Get.to(() => const RecipeListScreen());
+              break;
+            case 2:
+              // Get.to(() => ProfilScreen());
+              break;
+          }
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
       ),
     );
   }
