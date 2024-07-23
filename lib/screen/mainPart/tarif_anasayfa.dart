@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nutrijourney/screen/mainPart/mainScreen.dart';
+import 'package:nutrijourney/screen/mainPart/profile.dart';
 import 'package:nutrijourney/screen/mainPart/tarif.dart';
-// Ensure this import matches your project structure
-// Ensure this import matches your project structure
 
 class RecipeListScreen extends StatefulWidget {
   const RecipeListScreen({super.key});
@@ -14,6 +13,40 @@ class RecipeListScreen extends StatefulWidget {
 
 class _RecipeListScreenState extends State<RecipeListScreen> {
   int _selectedIndex = 1;
+  String _selectedFilter = 'Tümü';
+
+  final List<Map<String, String>> _recipes = [
+    {
+      'imageUrl': 'https://via.placeholder.com/150',
+      'title': 'Sabah Tarif 1',
+      'time': 'Sabah'
+    },
+    {
+      'imageUrl': 'https://via.placeholder.com/150',
+      'title': 'Sabah Tarif 2',
+      'time': 'Sabah'
+    },
+    {
+      'imageUrl': 'https://via.placeholder.com/150',
+      'title': 'Öğle Tarif 1',
+      'time': 'Öğle'
+    },
+    {
+      'imageUrl': 'https://via.placeholder.com/150',
+      'title': 'Öğle Tarif 2',
+      'time': 'Öğle'
+    },
+    {
+      'imageUrl': 'https://via.placeholder.com/150',
+      'title': 'Akşam Tarif 1',
+      'time': 'Akşam'
+    },
+    {
+      'imageUrl': 'https://via.placeholder.com/150',
+      'title': 'Akşam Tarif 2',
+      'time': 'Akşam'
+    },
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -28,8 +61,18 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
         Get.to(() => const RecipeListScreen());
         break;
       case 2:
-        //Get.to(() => ProfileScreen());
+        Get.to(() => const ProfileScreen());
         break;
+    }
+  }
+
+  List<Map<String, String>> get _filteredRecipes {
+    if (_selectedFilter == 'Tümü') {
+      return _recipes;
+    } else {
+      return _recipes
+          .where((recipe) => recipe['time'] == _selectedFilter)
+          .toList();
     }
   }
 
@@ -38,18 +81,56 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tarifler'),
-        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.to(() => const HomeScreen());
+          },
+        ),
       ),
       body: Column(
         children: [
           Container(
             padding: const EdgeInsets.all(10.0),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                FilterButton(label: 'Sabah'),
-                FilterButton(label: 'Öğle'),
-                FilterButton(label: 'Akşam'),
+                FilterButton(
+                  label: 'Tümü',
+                  isSelected: _selectedFilter == 'Tümü',
+                  onPressed: () {
+                    setState(() {
+                      _selectedFilter = 'Tümü';
+                    });
+                  },
+                ),
+                FilterButton(
+                  label: 'Sabah',
+                  isSelected: _selectedFilter == 'Sabah',
+                  onPressed: () {
+                    setState(() {
+                      _selectedFilter = 'Sabah';
+                    });
+                  },
+                ),
+                FilterButton(
+                  label: 'Öğle',
+                  isSelected: _selectedFilter == 'Öğle',
+                  onPressed: () {
+                    setState(() {
+                      _selectedFilter = 'Öğle';
+                    });
+                  },
+                ),
+                FilterButton(
+                  label: 'Akşam',
+                  isSelected: _selectedFilter == 'Akşam',
+                  onPressed: () {
+                    setState(() {
+                      _selectedFilter = 'Akşam';
+                    });
+                  },
+                ),
               ],
             ),
           ),
@@ -62,9 +143,9 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                 childAspectRatio: 1,
               ),
               padding: const EdgeInsets.all(10.0),
-              itemCount:
-                  6, // Adjust this according to your actual number of recipes
+              itemCount: _filteredRecipes.length,
               itemBuilder: (context, index) {
+                final recipe = _filteredRecipes[index];
                 return GestureDetector(
                   onTap: () {
                     if (index == 3) {
@@ -72,9 +153,8 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                     }
                   },
                   child: RecipeCard(
-                    imageUrl:
-                        'https://via.placeholder.com/150', // Replace with actual image URL
-                    title: 'Tarif $index',
+                    imageUrl: recipe['imageUrl']!,
+                    title: recipe['title']!,
                   ),
                 );
               },
@@ -107,17 +187,22 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
 
 class FilterButton extends StatelessWidget {
   final String label;
+  final bool isSelected;
+  final VoidCallback onPressed;
 
-  const FilterButton({super.key, required this.label});
+  const FilterButton({
+    super.key,
+    required this.label,
+    required this.isSelected,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        // Filtering action
-      },
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blue,
+        backgroundColor: isSelected ? Colors.blueAccent : Colors.blue,
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
       ),
       child: Text(

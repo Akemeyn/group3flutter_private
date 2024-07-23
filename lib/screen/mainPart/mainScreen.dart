@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:nutrijourney/screen/mainPart/chatbot.dart';
+import 'package:nutrijourney/screen/mainPart/profile.dart';
 import 'package:nutrijourney/screen/mainPart/tarif_anasayfa.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
@@ -201,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Get.to(() => const RecipeListScreen());
               break;
             case 2:
-              // Get.to(() => ProfilScreen());
+              Get.to(() => const ProfileScreen());
               break;
           }
           setState(() {
