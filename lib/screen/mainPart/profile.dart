@@ -165,7 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Get.to(() => const HomeScreen());
               break;
             case 1:
-              Get.to(() => const RecipeListScreen());
+              //Get.to(() => const RecipeListScreen());
               break;
             case 2:
               Get.to(() => const ProfileScreen());

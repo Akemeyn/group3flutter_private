@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nutrijourney/screen/mainPart/mainScreen.dart';
@@ -5,7 +7,9 @@ import 'package:nutrijourney/screen/mainPart/profile.dart';
 import 'package:nutrijourney/screen/mainPart/tarif.dart';
 
 class RecipeListScreen extends StatefulWidget {
-  const RecipeListScreen({super.key});
+  final String recipesJson;
+
+  const RecipeListScreen({super.key, required this.recipesJson});
 
   @override
   _RecipeListScreenState createState() => _RecipeListScreenState();
@@ -14,39 +18,37 @@ class RecipeListScreen extends StatefulWidget {
 class _RecipeListScreenState extends State<RecipeListScreen> {
   int _selectedIndex = 1;
   String _selectedFilter = 'Tümü';
+  late List<Map<String, String>> _recipes;
 
-  final List<Map<String, String>> _recipes = [
-    {
-      'imageUrl': 'https://via.placeholder.com/150',
-      'title': 'Sabah Tarif 1',
-      'time': 'Sabah'
-    },
-    {
-      'imageUrl': 'https://via.placeholder.com/150',
-      'title': 'Sabah Tarif 2',
-      'time': 'Sabah'
-    },
-    {
-      'imageUrl': 'https://via.placeholder.com/150',
-      'title': 'Öğle Tarif 1',
-      'time': 'Öğle'
-    },
-    {
-      'imageUrl': 'https://via.placeholder.com/150',
-      'title': 'Öğle Tarif 2',
-      'time': 'Öğle'
-    },
-    {
-      'imageUrl': 'https://via.placeholder.com/150',
-      'title': 'Akşam Tarif 1',
-      'time': 'Akşam'
-    },
-    {
-      'imageUrl': 'https://via.placeholder.com/150',
-      'title': 'Akşam Tarif 2',
-      'time': 'Akşam'
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    try {
+      _recipes = parseRecipesFromResponse(widget.recipesJson);
+    } catch (e) {
+      // Hata durumunda boş liste atayabiliriz veya hata mesajı gösterebiliriz.
+      _recipes = [];
+      print("JSON parse hatası: $e");
+    }
+  }
+
+  List<Map<String, String>> parseRecipesFromResponse(String responseText) {
+    final regex = RegExp(r'\{[^}]+\}');
+    final matches = regex.allMatches(responseText);
+
+    final List<Map<String, String>> recipes = matches.map((match) {
+      final jsonString = match.group(0)!;
+      final Map<String, dynamic> jsonMap = json.decode(jsonString) as Map<String, dynamic>;
+
+      return {
+        'name': jsonMap['name']?.toString() ?? '',
+        'ingredients': jsonMap['ingredients']?.toString() ?? '',
+        'construction': jsonMap['construction']?.toString() ?? '',
+      };
+    }).toList();
+
+    return recipes;
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -58,7 +60,7 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
         Get.to(() => const HomeScreen());
         break;
       case 1:
-        Get.to(() => const RecipeListScreen());
+        Get.to(() => RecipeListScreen(recipesJson: widget.recipesJson));
         break;
       case 2:
         Get.to(() => const ProfileScreen());
@@ -70,9 +72,7 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
     if (_selectedFilter == 'Tümü') {
       return _recipes;
     } else {
-      return _recipes
-          .where((recipe) => recipe['time'] == _selectedFilter)
-          .toList();
+      return _recipes.where((recipe) => recipe['time'] == _selectedFilter).toList();
     }
   }
 
@@ -148,13 +148,15 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                 final recipe = _filteredRecipes[index];
                 return GestureDetector(
                   onTap: () {
-                    if (index == 3) {
-                      Get.to(() => const RecipePage());
-                    }
+                    Get.to(() => RecipePage(
+                          name: recipe['name']!,
+                          ingredients: recipe['ingredients']!,
+                          construction: recipe['construction']!,
+                        ));
                   },
                   child: RecipeCard(
-                    imageUrl: recipe['imageUrl']!,
-                    title: recipe['title']!,
+                    title: recipe['name']!,
+                    imageUrl: 'http://via.placeholder.com/150',
                   ),
                 );
               },

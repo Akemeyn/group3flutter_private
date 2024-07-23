@@ -115,7 +115,7 @@ class _CalorieControlScreenState extends State<CalorieControlScreen> {
               Get.to(() => const HomeScreen());
               break;
             case 1:
-              Get.to(() => const RecipeListScreen());
+              //Get.to(() => const RecipeListScreen());
               break;
             case 2:
               Get.to(() => const ProfileScreen());

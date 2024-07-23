@@ -19,6 +19,8 @@ dependencies:
   awesome_number_picker: ^0.0.4
   simple_barcode_scanner: ^0.0.8
   flutter_barcode_scanner: ^2.0.0
+  flutter_gemini: ^2.0.4
+  google_generative_ai: ^0.4.3
 
 dev_dependencies:
   flutter_test:

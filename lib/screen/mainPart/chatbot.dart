@@ -5,7 +5,9 @@ import 'package:awesome_number_picker/awesome_number_picker.dart';
 import 'package:nutrijourney/screen/mainPart/barcodeScanner.dart';
 import 'package:nutrijourney/screen/mainPart/calorieControl.dart';
 import 'package:nutrijourney/screen/mainPart/tarif_anasayfa.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import '../../components/colorController.dart';
+import 'dart:convert';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -24,6 +26,19 @@ class _ChatScreenState extends State<ChatScreen> {
   String sex = "";
   final ScrollController scrollController = ScrollController();
 
+  //Öğün önerme kısmı
+  String selectedMealType = "";
+  String selectedFlavorType = "";
+  String selectedCookingType = "";
+  String selectedDietType = "";
+  String selectedPortion = "";
+  final List<String> mealTypes = ['Kahvaltı', 'Öğle Yemeği', 'Akşam Yemeği', 'Atıştırmalık'];
+  final List<String> flavorTypes = ['Tatlı', 'Acı - Baharatlı', 'Tuzlu', 'Ekşi', "NutriMate karar versin"];
+  final List<String> cookingTypes = ['Fırın', 'Haşlama', 'Soteleme', 'Izgara', "Kızartma", "NutriMate karar versin"];
+  final List<String> dietTypes = ['Vegan', 'Vejeteryan', 'Laktozsuz', 'Glutensiz', "NutriMate karar versin"];
+  final List<String> portionTypes = ['1', '2', '3', '4', "5+", "NutriMate karar versin"];
+
+  //scenarios
   String scenario1 = "Barkod Okutmak İstiyorum";
   String scenario2 = "Kalori Hesaplamak İstiyorum";
   String scenario3 = "Bana Bir Öğün Öner";
@@ -35,10 +50,8 @@ class _ChatScreenState extends State<ChatScreen> {
     Future.delayed(Duration(milliseconds: textDuration), () {
       setState(() {
         showText = true;
-        messages.add(ComponentEditor.chatBotNutriMateText(
-            "Merhaba ben NutriMate, size nasıl yardımcı olabilirim?",
-            MediaQuery.of(context).size.width,
-            MediaQuery.of(context).size.height));
+        messages.add(ComponentEditor.chatBotNutriMateText("Merhaba ben NutriMate, size nasıl yardımcı olabilirim?",
+            MediaQuery.of(context).size.width, MediaQuery.of(context).size.height));
         _scrollToBottom();
       });
       Future.delayed(Duration(milliseconds: buttonDuration), () {
@@ -66,13 +79,43 @@ class _ChatScreenState extends State<ChatScreen> {
     } else if (scenario == scenario2) {
       Get.to(() => const CalorieControlScreen());
     } else if (scenario == scenario3) {
-      Get.to(() => const RecipeListScreen());
-      //SPRINT 3 ICERISINDE DOLACAK
+      setState(() {
+        removeLastWidgets(2);
+        messages.add(ComponentEditor.chatBotUserText("Bana bir öğün önermeni istiyorum.", screenWidth, screenHeight));
+        showButtons = false;
+        Future.delayed(Duration(milliseconds: buttonDuration), () {
+          setState(() {
+            messages.add(ComponentEditor.chatBotNutriMateText("Nasıl bir yemek türü istiyorsunuz?",
+                MediaQuery.of(context).size.width, MediaQuery.of(context).size.height));
+            messages.add(Column(
+              children: mealTypes.asMap().entries.map((entry) {
+                int idx = entry.key;
+                String mealType = entry.value;
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all<Color>(
+                        ColorController.soDarkJungleGreen.withOpacity(0.8),
+                      ),
+                    ),
+                    onPressed: () => _onMealTypeSelected(idx),
+                    child: Text(
+                      mealType,
+                      style: ComponentEditor.specialText(24, Colors.white),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ));
+            _scrollToBottom();
+          });
+        });
+      });
     } else if (scenario == scenario4) {
       setState(() {
-        removeLastButtons();
-        messages.add(ComponentEditor.chatBotUserText(
-            "Günlük ne kadar su içmem gerek?", screenWidth, screenHeight));
+        removeLastWidgets(2);
+        messages.add(ComponentEditor.chatBotUserText("Günlük ne kadar su içmem gerek?", screenWidth, screenHeight));
         showButtons = false;
         _scrollToBottom();
       });
@@ -80,9 +123,7 @@ class _ChatScreenState extends State<ChatScreen> {
       Future.delayed(Duration(milliseconds: buttonDuration), () {
         setState(() {
           messages.add(ComponentEditor.chatBotNutriMateText(
-              "Lütfen kilonuzu giriniz...",
-              MediaQuery.of(context).size.width,
-              MediaQuery.of(context).size.height));
+              "Lütfen kilonuzu giriniz...", MediaQuery.of(context).size.width, MediaQuery.of(context).size.height));
           messages.add(
             Column(
               children: [
@@ -93,24 +134,16 @@ class _ChatScreenState extends State<ChatScreen> {
                     minValue: 0,
                     maxValue: 200,
                     decimalPrecision: 1,
-                    pickedItemTextStyle:
-                        ComponentEditor.specialText(24, Colors.white),
-                    otherItemsTextStyle:
-                        ComponentEditor.specialText(24, Colors.white),
+                    pickedItemTextStyle: ComponentEditor.specialText(24, Colors.white),
+                    otherItemsTextStyle: ComponentEditor.specialText(24, Colors.white),
                     pickedItemDecoration: BoxDecoration(
-                        color:
-                            ColorController.soDarkJungleGreen.withOpacity(0.8),
+                        color: ColorController.soDarkJungleGreen.withOpacity(0.8),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                            color: ColorController.soDarkJungleGreen,
-                            width: 2)),
+                        border: Border.all(color: ColorController.soDarkJungleGreen, width: 2)),
                     otherItemsDecoration: BoxDecoration(
-                        color:
-                            ColorController.soDarkJungleGreen.withOpacity(0.6),
+                        color: ColorController.soDarkJungleGreen.withOpacity(0.6),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                            color: ColorController.soDarkJungleGreen,
-                            width: 2)),
+                        border: Border.all(color: ColorController.soDarkJungleGreen, width: 2)),
                     onChanged: (value) {
                       setState(() => selectedWeight = value);
                     },
@@ -120,14 +153,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     onPressed: () {
                       setState(() {
                         messages.removeLast();
-                        messages.add(ComponentEditor.chatBotUserText(
-                            "$selectedWeight kiloyum",
-                            screenWidth,
-                            screenHeight));
+                        messages
+                            .add(ComponentEditor.chatBotUserText("$selectedWeight kiloyum", screenWidth, screenHeight));
                         messages.add(ComponentEditor.chatBotNutriMateText(
-                            "Cinsiyetinizi öğrenebilir miyim?",
-                            screenWidth,
-                            screenHeight));
+                            "Cinsiyetinizi öğrenebilir miyim?", screenWidth, screenHeight));
                         messages.add(Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -136,38 +165,30 @@ class _ChatScreenState extends State<ChatScreen> {
                                 Icon(
                                   Icons.woman,
                                   size: screenHeight * 0.1,
-                                  color: ColorController.soDarkJungleGreen
-                                      .withOpacity(0.8),
+                                  color: ColorController.soDarkJungleGreen.withOpacity(0.8),
                                 ),
                                 ElevatedButton(
                                     onPressed: () {
                                       setState(() {
                                         sex = "Kadın";
                                         messages.removeLast();
-                                        messages.add(
-                                            ComponentEditor.chatBotUserText(
-                                                "Kadınım",
-                                                screenWidth,
-                                                screenHeight));
-                                        messages.add(ComponentEditor
-                                            .chatBotNutriMateText(
-                                                "Günlük aktivitenizi 1 ile 5 arasında seçer misiniz?",
-                                                screenWidth,
-                                                screenHeight));
+                                        messages
+                                            .add(ComponentEditor.chatBotUserText("Kadınım", screenWidth, screenHeight));
+                                        messages.add(ComponentEditor.chatBotNutriMateText(
+                                            "Günlük aktivitenizi 1 ile 5 arasında seçer misiniz?",
+                                            screenWidth,
+                                            screenHeight));
                                       });
                                       _scrollToBottom();
                                     },
                                     style: ButtonStyle(
-                                      backgroundColor:
-                                          WidgetStateProperty.all<Color>(
-                                        ColorController.soDarkJungleGreen
-                                            .withOpacity(0.8),
+                                      backgroundColor: WidgetStateProperty.all<Color>(
+                                        ColorController.soDarkJungleGreen.withOpacity(0.8),
                                       ),
                                     ),
                                     child: Text(
                                       "Kadın",
-                                      style: ComponentEditor.specialText(
-                                          24, Colors.white),
+                                      style: ComponentEditor.specialText(24, Colors.white),
                                     ))
                               ],
                             ),
@@ -176,38 +197,30 @@ class _ChatScreenState extends State<ChatScreen> {
                                 Icon(
                                   Icons.man,
                                   size: screenHeight * 0.1,
-                                  color: ColorController.soDarkJungleGreen
-                                      .withOpacity(0.8),
+                                  color: ColorController.soDarkJungleGreen.withOpacity(0.8),
                                 ),
                                 ElevatedButton(
                                     onPressed: () {
                                       setState(() {
                                         sex = "Erkek";
                                         messages.removeLast();
-                                        messages.add(
-                                            ComponentEditor.chatBotUserText(
-                                                "Erkeğim",
-                                                screenWidth,
-                                                screenHeight));
-                                        messages.add(ComponentEditor
-                                            .chatBotNutriMateText(
-                                                "Günlük aktivitenizi 1 ile 5 arasında seçer misiniz?",
-                                                screenWidth,
-                                                screenHeight));
+                                        messages
+                                            .add(ComponentEditor.chatBotUserText("Erkeğim", screenWidth, screenHeight));
+                                        messages.add(ComponentEditor.chatBotNutriMateText(
+                                            "Günlük aktivitenizi 1 ile 5 arasında seçer misiniz?",
+                                            screenWidth,
+                                            screenHeight));
                                       });
                                       _scrollToBottom();
                                     },
                                     style: ButtonStyle(
-                                      backgroundColor:
-                                          WidgetStateProperty.all<Color>(
-                                        ColorController.soDarkJungleGreen
-                                            .withOpacity(0.8),
+                                      backgroundColor: WidgetStateProperty.all<Color>(
+                                        ColorController.soDarkJungleGreen.withOpacity(0.8),
                                       ),
                                     ),
                                     child: Text(
                                       "Erkek",
-                                      style: ComponentEditor.specialText(
-                                          24, Colors.white),
+                                      style: ComponentEditor.specialText(24, Colors.white),
                                     ))
                               ],
                             )
@@ -234,11 +247,8 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void removeLastButtons() {
-    if (messages.isNotEmpty) {
-      messages.removeLast();
-    }
-    if (messages.isNotEmpty) {
+  void removeLastWidgets(int howMuch) {
+    for (var i = 0; i < howMuch; i++) {
       messages.removeLast();
     }
   }
@@ -292,27 +302,17 @@ class _ChatScreenState extends State<ChatScreen> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    onCardTap(scenario1, MediaQuery.of(context).size.width,
-                        MediaQuery.of(context).size.height);
+                    onCardTap(scenario1, MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
                   },
-                  child: ComponentEditor.chatBotCard(
-                      MediaQuery.of(context).size.height * 0.3,
-                      MediaQuery.of(context).size.width * 0.4,
-                      scenario1,
-                      24,
-                      Icons.camera_alt_outlined),
+                  child: ComponentEditor.chatBotCard(MediaQuery.of(context).size.height * 0.3,
+                      MediaQuery.of(context).size.width * 0.4, scenario1, 24, Icons.camera_alt_outlined),
                 ),
                 GestureDetector(
                   onTap: () {
-                    onCardTap(scenario2, MediaQuery.of(context).size.width,
-                        MediaQuery.of(context).size.height);
+                    onCardTap(scenario2, MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
                   },
-                  child: ComponentEditor.chatBotCard(
-                      MediaQuery.of(context).size.height * 0.3,
-                      MediaQuery.of(context).size.width * 0.4,
-                      scenario2,
-                      24,
-                      Icons.calculate_outlined),
+                  child: ComponentEditor.chatBotCard(MediaQuery.of(context).size.height * 0.3,
+                      MediaQuery.of(context).size.width * 0.4, scenario2, 24, Icons.calculate_outlined),
                 ),
               ],
             ),
@@ -332,27 +332,17 @@ class _ChatScreenState extends State<ChatScreen> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    onCardTap(scenario3, MediaQuery.of(context).size.width,
-                        MediaQuery.of(context).size.height);
+                    onCardTap(scenario3, MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
                   },
-                  child: ComponentEditor.chatBotCard(
-                      MediaQuery.of(context).size.height * 0.3,
-                      MediaQuery.of(context).size.width * 0.4,
-                      scenario3,
-                      24,
-                      Icons.fastfood_outlined),
+                  child: ComponentEditor.chatBotCard(MediaQuery.of(context).size.height * 0.3,
+                      MediaQuery.of(context).size.width * 0.4, scenario3, 24, Icons.fastfood_outlined),
                 ),
                 GestureDetector(
                   onTap: () {
-                    onCardTap(scenario4, MediaQuery.of(context).size.width,
-                        MediaQuery.of(context).size.height);
+                    onCardTap(scenario4, MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
                   },
-                  child: ComponentEditor.chatBotCard(
-                      MediaQuery.of(context).size.height * 0.3,
-                      MediaQuery.of(context).size.width * 0.4,
-                      scenario4,
-                      24,
-                      Icons.water_drop_outlined),
+                  child: ComponentEditor.chatBotCard(MediaQuery.of(context).size.height * 0.3,
+                      MediaQuery.of(context).size.width * 0.4, scenario4, 24, Icons.water_drop_outlined),
                 ),
               ],
             ),
@@ -360,5 +350,229 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       );
     });
+  }
+
+  void _onMealTypeSelected(int index) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    selectedMealType = mealTypes[index];
+    setState(() {
+      removeLastWidgets(1);
+      messages.add(ComponentEditor.chatBotUserText("$selectedMealType istiyorum.", screenWidth, screenHeight));
+      Future.delayed(const Duration(milliseconds: 500), () {
+        setState(() {
+          messages.add(ComponentEditor.chatBotNutriMateText("Tat seçimi yapar mısınız?", screenWidth, screenHeight));
+          messages.add(Column(
+            children: flavorTypes.asMap().entries.map((entry) {
+              int idx = entry.key;
+              String flavorType = entry.value;
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all<Color>(
+                      ColorController.soDarkJungleGreen.withOpacity(0.8),
+                    ),
+                  ),
+                  onPressed: () => _onFlavorTypeSelected(idx),
+                  child: Text(
+                    flavorType,
+                    style: ComponentEditor.specialText(24, Colors.white),
+                  ),
+                ),
+              );
+            }).toList(),
+          ));
+          _scrollToBottom();
+        });
+      });
+    });
+  }
+
+  void _onFlavorTypeSelected(int index) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    selectedFlavorType = flavorTypes[index];
+    String text = "";
+    if (selectedFlavorType == "NutriMate karar versin") {
+      text = "Sana bırakıyorum.";
+    } else {
+      text = "$selectedFlavorType istiyorum.";
+    }
+    setState(() {
+      removeLastWidgets(1);
+      messages.add(ComponentEditor.chatBotUserText(text, screenWidth, screenHeight));
+      Future.delayed(const Duration(milliseconds: 500), () {
+        setState(() {
+          messages
+              .add(ComponentEditor.chatBotNutriMateText("Pişirme seçimi yapar mısınız?", screenWidth, screenHeight));
+          messages.add(Column(
+            children: cookingTypes.asMap().entries.map((entry) {
+              int idx = entry.key;
+              String cookingType = entry.value;
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all<Color>(
+                      ColorController.soDarkJungleGreen.withOpacity(0.8),
+                    ),
+                  ),
+                  onPressed: () => _onCookingTypeSelected(idx),
+                  child: Text(
+                    cookingType,
+                    style: ComponentEditor.specialText(24, Colors.white),
+                  ),
+                ),
+              );
+            }).toList(),
+          ));
+          _scrollToBottom();
+        });
+      });
+    });
+  }
+
+  void _onCookingTypeSelected(int index) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    selectedCookingType = cookingTypes[index];
+    String text = "";
+    if (selectedCookingType == "NutriMate karar versin") {
+      text = "Sana bırakıyorum.";
+    } else {
+      text = "$selectedCookingType istiyorum.";
+    }
+    setState(() {
+      removeLastWidgets(1);
+      messages.add(ComponentEditor.chatBotUserText(text, screenWidth, screenHeight));
+      Future.delayed(const Duration(milliseconds: 500), () {
+        setState(() {
+          messages
+              .add(ComponentEditor.chatBotNutriMateText("Özel istek seçimi yapar mısınız?", screenWidth, screenHeight));
+          messages.add(Column(
+            children: dietTypes.asMap().entries.map((entry) {
+              int idx = entry.key;
+              String dietType = entry.value;
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all<Color>(
+                      ColorController.soDarkJungleGreen.withOpacity(0.8),
+                    ),
+                  ),
+                  onPressed: () => _onDietTypeSelected(idx),
+                  child: Text(
+                    dietType,
+                    style: ComponentEditor.specialText(24, Colors.white),
+                  ),
+                ),
+              );
+            }).toList(),
+          ));
+          _scrollToBottom();
+        });
+      });
+    });
+  }
+
+  void _onDietTypeSelected(int index) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    selectedDietType = dietTypes[index];
+    String text = "";
+    if (selectedDietType == "NutriMate karar versin") {
+      text = "Sana bırakıyorum.";
+    } else {
+      text = "$selectedDietType istiyorum.";
+    }
+    setState(() {
+      removeLastWidgets(1);
+      messages.add(ComponentEditor.chatBotUserText(text, screenWidth, screenHeight));
+      Future.delayed(const Duration(milliseconds: 500), () {
+        setState(() {
+          messages
+              .add(ComponentEditor.chatBotNutriMateText("Özel istek seçimi yapar mısınız?", screenWidth, screenHeight));
+          messages.add(Column(
+            children: portionTypes.asMap().entries.map((entry) {
+              int idx = entry.key;
+              String portionType = entry.value;
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all<Color>(
+                      ColorController.soDarkJungleGreen.withOpacity(0.8),
+                    ),
+                  ),
+                  onPressed: () => _onPortionTypeSelected(idx),
+                  child: Text(
+                    portionType,
+                    style: ComponentEditor.specialText(24, Colors.white),
+                  ),
+                ),
+              );
+            }).toList(),
+          ));
+          _scrollToBottom();
+        });
+      });
+    });
+  }
+
+  void _onPortionTypeSelected(int index) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    selectedPortion = portionTypes[index];
+    String text = "";
+    if (selectedPortion == "NutriMate karar versin") {
+      text = "Sana bırakıyorum.";
+    } else {
+      text = "$selectedPortion kişilik olsun.";
+    }
+    setState(() {
+      removeLastWidgets(1);
+      messages.add(ComponentEditor.chatBotUserText(text, screenWidth, screenHeight));
+      Future.delayed(const Duration(milliseconds: 500), () {
+        setState(() {
+          messages.add(ComponentEditor.chatBotNutriMateText("Tarifleriniz hazırlanıyor...", screenWidth, screenHeight));
+          _scrollToBottom();
+        });
+      });
+
+      generateResponse().then((response) {
+        Get.to(() => RecipeListScreen(recipesJson: response));
+      });
+    });
+  }
+
+  Future<String> generateResponse() async {
+    String mealType = selectedMealType != "NutriMate karar versin" ? selectedMealType : "";
+    String flavorType = selectedFlavorType != "NutriMate karar versin" ? selectedFlavorType : "";
+    String cookingType = selectedCookingType != "NutriMate karar versin" ? selectedCookingType : "";
+    String dietType = selectedDietType != "NutriMate karar versin" ? selectedDietType : "";
+    String portion = selectedPortion != "NutriMate karar versin" ? selectedPortion : "";
+
+    final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: 'AIzaSyBxc-GDn-WWrc0PFwBmDECQwdWwBY_k5qo');
+
+    String prompt = '''
+  Sadece name, ingredients ve construction'ı doldurup bana JSON formatında geri doldur, bu şekilde bana 6 farklı tarif öner
+  {
+    "meal_type": "$mealType",
+    "flavor_type": "$flavorType",
+    "cooking_type": "$cookingType",
+    "diet_type": "$dietType",
+    "portion": "$portion",
+    "name": "",
+    "ingredients": "",
+    "construction": ""
+  }
+  ''';
+
+    final content = [Content.text(prompt)];
+    final response = await model.generateContent(content);
+
+    return response.text!;
   }
 }
