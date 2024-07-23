@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nutrijourney/screen/mainPart/chatBot.dart';
 import 'screen/loginPart/welcomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';

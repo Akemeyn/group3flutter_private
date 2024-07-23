@@ -4,7 +4,6 @@ import 'package:nutrijourney/components/componentEditor.dart';
 import 'package:awesome_number_picker/awesome_number_picker.dart';
 import 'package:nutrijourney/screen/mainPart/barcodeScanner.dart';
 import 'package:nutrijourney/screen/mainPart/calorieControl.dart';
-import 'package:nutrijourney/screen/mainPart/tarif.dart';
 import 'package:nutrijourney/screen/mainPart/tarif_anasayfa.dart';
 import '../../components/colorController.dart';
 

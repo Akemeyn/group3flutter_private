@@ -5,8 +5,6 @@ import 'package:nutrijourney/components/colorController.dart';
 import 'package:nutrijourney/screen/loginPart/loginScreen.dart';
 import 'package:nutrijourney/screen/loginPart/registerScreen.dart';
 
-import '../mainPart/chatBot.dart';
-
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
