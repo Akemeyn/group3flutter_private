@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:nutrijourney/screen/mainPart/mainScreen.dart';
+import 'package:nutrijourney/screen/mainPart/profile.dart';
 import 'package:nutrijourney/screen/mainPart/tarif_anasayfa.dart';
 
 class CalorieControlScreen extends StatefulWidget {
@@ -117,7 +118,7 @@ class _CalorieControlScreenState extends State<CalorieControlScreen> {
               Get.to(() => const RecipeListScreen());
               break;
             case 2:
-              // Get.to(() => ProfilScreen());
+              Get.to(() => const ProfileScreen());
               break;
           }
           setState(() {
