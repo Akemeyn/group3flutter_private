@@ -35,8 +35,10 @@ class _ChatScreenState extends State<ChatScreen> {
     Future.delayed(Duration(milliseconds: textDuration), () {
       setState(() {
         showText = true;
-        messages.add(ComponentEditor.chatBotNutriMateText("Merhaba ben NutriMate, size nasıl yardımcı olabilirim?",
-            MediaQuery.of(context).size.width, MediaQuery.of(context).size.height));
+        messages.add(ComponentEditor.chatBotNutriMateText(
+            "Merhaba ben NutriMate, size nasıl yardımcı olabilirim?",
+            MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height));
         _scrollToBottom();
       });
       Future.delayed(Duration(milliseconds: buttonDuration), () {
@@ -64,12 +66,13 @@ class _ChatScreenState extends State<ChatScreen> {
     } else if (scenario == scenario2) {
       Get.to(() => const CalorieControlScreen());
     } else if (scenario == scenario3) {
-      Get.to(() => RecipeListScreen());
+      Get.to(() => const RecipeListScreen());
       //SPRINT 3 ICERISINDE DOLACAK
     } else if (scenario == scenario4) {
       setState(() {
         removeLastButtons();
-        messages.add(ComponentEditor.chatBotUserText("Günlük ne kadar su içmem gerek?", screenWidth, screenHeight));
+        messages.add(ComponentEditor.chatBotUserText(
+            "Günlük ne kadar su içmem gerek?", screenWidth, screenHeight));
         showButtons = false;
         _scrollToBottom();
       });
@@ -77,7 +80,9 @@ class _ChatScreenState extends State<ChatScreen> {
       Future.delayed(Duration(milliseconds: buttonDuration), () {
         setState(() {
           messages.add(ComponentEditor.chatBotNutriMateText(
-              "Lütfen kilonuzu giriniz...", MediaQuery.of(context).size.width, MediaQuery.of(context).size.height));
+              "Lütfen kilonuzu giriniz...",
+              MediaQuery.of(context).size.width,
+              MediaQuery.of(context).size.height));
           messages.add(
             Column(
               children: [
@@ -88,16 +93,24 @@ class _ChatScreenState extends State<ChatScreen> {
                     minValue: 0,
                     maxValue: 200,
                     decimalPrecision: 1,
-                    pickedItemTextStyle: ComponentEditor.specialText(24, Colors.white),
-                    otherItemsTextStyle: ComponentEditor.specialText(24, Colors.white),
+                    pickedItemTextStyle:
+                        ComponentEditor.specialText(24, Colors.white),
+                    otherItemsTextStyle:
+                        ComponentEditor.specialText(24, Colors.white),
                     pickedItemDecoration: BoxDecoration(
-                        color: ColorController.soDarkJungleGreen.withOpacity(0.8),
+                        color:
+                            ColorController.soDarkJungleGreen.withOpacity(0.8),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: ColorController.soDarkJungleGreen, width: 2)),
+                        border: Border.all(
+                            color: ColorController.soDarkJungleGreen,
+                            width: 2)),
                     otherItemsDecoration: BoxDecoration(
-                        color: ColorController.soDarkJungleGreen.withOpacity(0.6),
+                        color:
+                            ColorController.soDarkJungleGreen.withOpacity(0.6),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: ColorController.soDarkJungleGreen, width: 2)),
+                        border: Border.all(
+                            color: ColorController.soDarkJungleGreen,
+                            width: 2)),
                     onChanged: (value) {
                       setState(() => selectedWeight = value);
                     },
@@ -107,10 +120,14 @@ class _ChatScreenState extends State<ChatScreen> {
                     onPressed: () {
                       setState(() {
                         messages.removeLast();
-                        messages
-                            .add(ComponentEditor.chatBotUserText("$selectedWeight kiloyum", screenWidth, screenHeight));
+                        messages.add(ComponentEditor.chatBotUserText(
+                            "$selectedWeight kiloyum",
+                            screenWidth,
+                            screenHeight));
                         messages.add(ComponentEditor.chatBotNutriMateText(
-                            "Cinsiyetinizi öğrenebilir miyim?", screenWidth, screenHeight));
+                            "Cinsiyetinizi öğrenebilir miyim?",
+                            screenWidth,
+                            screenHeight));
                         messages.add(Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -119,30 +136,38 @@ class _ChatScreenState extends State<ChatScreen> {
                                 Icon(
                                   Icons.woman,
                                   size: screenHeight * 0.1,
-                                  color: ColorController.soDarkJungleGreen.withOpacity(0.8),
+                                  color: ColorController.soDarkJungleGreen
+                                      .withOpacity(0.8),
                                 ),
                                 ElevatedButton(
                                     onPressed: () {
                                       setState(() {
                                         sex = "Kadın";
                                         messages.removeLast();
-                                        messages
-                                            .add(ComponentEditor.chatBotUserText("Kadınım", screenWidth, screenHeight));
-                                        messages.add(ComponentEditor.chatBotNutriMateText(
-                                            "Günlük aktivitenizi 1 ile 5 arasında seçer misiniz?",
-                                            screenWidth,
-                                            screenHeight));
+                                        messages.add(
+                                            ComponentEditor.chatBotUserText(
+                                                "Kadınım",
+                                                screenWidth,
+                                                screenHeight));
+                                        messages.add(ComponentEditor
+                                            .chatBotNutriMateText(
+                                                "Günlük aktivitenizi 1 ile 5 arasında seçer misiniz?",
+                                                screenWidth,
+                                                screenHeight));
                                       });
                                       _scrollToBottom();
                                     },
                                     style: ButtonStyle(
-                                      backgroundColor: WidgetStateProperty.all<Color>(
-                                        ColorController.soDarkJungleGreen.withOpacity(0.8),
+                                      backgroundColor:
+                                          WidgetStateProperty.all<Color>(
+                                        ColorController.soDarkJungleGreen
+                                            .withOpacity(0.8),
                                       ),
                                     ),
                                     child: Text(
                                       "Kadın",
-                                      style: ComponentEditor.specialText(24, Colors.white),
+                                      style: ComponentEditor.specialText(
+                                          24, Colors.white),
                                     ))
                               ],
                             ),
@@ -151,30 +176,38 @@ class _ChatScreenState extends State<ChatScreen> {
                                 Icon(
                                   Icons.man,
                                   size: screenHeight * 0.1,
-                                  color: ColorController.soDarkJungleGreen.withOpacity(0.8),
+                                  color: ColorController.soDarkJungleGreen
+                                      .withOpacity(0.8),
                                 ),
                                 ElevatedButton(
                                     onPressed: () {
                                       setState(() {
                                         sex = "Erkek";
                                         messages.removeLast();
-                                        messages
-                                            .add(ComponentEditor.chatBotUserText("Erkeğim", screenWidth, screenHeight));
-                                        messages.add(ComponentEditor.chatBotNutriMateText(
-                                            "Günlük aktivitenizi 1 ile 5 arasında seçer misiniz?",
-                                            screenWidth,
-                                            screenHeight));
+                                        messages.add(
+                                            ComponentEditor.chatBotUserText(
+                                                "Erkeğim",
+                                                screenWidth,
+                                                screenHeight));
+                                        messages.add(ComponentEditor
+                                            .chatBotNutriMateText(
+                                                "Günlük aktivitenizi 1 ile 5 arasında seçer misiniz?",
+                                                screenWidth,
+                                                screenHeight));
                                       });
                                       _scrollToBottom();
                                     },
                                     style: ButtonStyle(
-                                      backgroundColor: WidgetStateProperty.all<Color>(
-                                        ColorController.soDarkJungleGreen.withOpacity(0.8),
+                                      backgroundColor:
+                                          WidgetStateProperty.all<Color>(
+                                        ColorController.soDarkJungleGreen
+                                            .withOpacity(0.8),
                                       ),
                                     ),
                                     child: Text(
                                       "Erkek",
-                                      style: ComponentEditor.specialText(24, Colors.white),
+                                      style: ComponentEditor.specialText(
+                                          24, Colors.white),
                                     ))
                               ],
                             )
@@ -259,17 +292,27 @@ class _ChatScreenState extends State<ChatScreen> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    onCardTap(scenario1, MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
+                    onCardTap(scenario1, MediaQuery.of(context).size.width,
+                        MediaQuery.of(context).size.height);
                   },
-                  child: ComponentEditor.chatBotCard(MediaQuery.of(context).size.height * 0.3,
-                      MediaQuery.of(context).size.width * 0.4, scenario1, 24, Icons.camera_alt_outlined),
+                  child: ComponentEditor.chatBotCard(
+                      MediaQuery.of(context).size.height * 0.3,
+                      MediaQuery.of(context).size.width * 0.4,
+                      scenario1,
+                      24,
+                      Icons.camera_alt_outlined),
                 ),
                 GestureDetector(
                   onTap: () {
-                    onCardTap(scenario2, MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
+                    onCardTap(scenario2, MediaQuery.of(context).size.width,
+                        MediaQuery.of(context).size.height);
                   },
-                  child: ComponentEditor.chatBotCard(MediaQuery.of(context).size.height * 0.3,
-                      MediaQuery.of(context).size.width * 0.4, scenario2, 24, Icons.calculate_outlined),
+                  child: ComponentEditor.chatBotCard(
+                      MediaQuery.of(context).size.height * 0.3,
+                      MediaQuery.of(context).size.width * 0.4,
+                      scenario2,
+                      24,
+                      Icons.calculate_outlined),
                 ),
               ],
             ),
@@ -289,17 +332,27 @@ class _ChatScreenState extends State<ChatScreen> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    onCardTap(scenario3, MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
+                    onCardTap(scenario3, MediaQuery.of(context).size.width,
+                        MediaQuery.of(context).size.height);
                   },
-                  child: ComponentEditor.chatBotCard(MediaQuery.of(context).size.height * 0.3,
-                      MediaQuery.of(context).size.width * 0.4, scenario3, 24, Icons.fastfood_outlined),
+                  child: ComponentEditor.chatBotCard(
+                      MediaQuery.of(context).size.height * 0.3,
+                      MediaQuery.of(context).size.width * 0.4,
+                      scenario3,
+                      24,
+                      Icons.fastfood_outlined),
                 ),
                 GestureDetector(
                   onTap: () {
-                    onCardTap(scenario4, MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
+                    onCardTap(scenario4, MediaQuery.of(context).size.width,
+                        MediaQuery.of(context).size.height);
                   },
-                  child: ComponentEditor.chatBotCard(MediaQuery.of(context).size.height * 0.3,
-                      MediaQuery.of(context).size.width * 0.4, scenario4, 24, Icons.water_drop_outlined),
+                  child: ComponentEditor.chatBotCard(
+                      MediaQuery.of(context).size.height * 0.3,
+                      MediaQuery.of(context).size.width * 0.4,
+                      scenario4,
+                      24,
+                      Icons.water_drop_outlined),
                 ),
               ],
             ),
