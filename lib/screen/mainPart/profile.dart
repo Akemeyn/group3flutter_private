@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nutrijourney/screen/mainPart/chatbot.dart';
 import 'package:nutrijourney/screen/mainPart/mainScreen.dart';
 import 'package:nutrijourney/screen/mainPart/profile_edit.dart';
-import 'package:nutrijourney/screen/mainPart/profile_save_register.dart';
-import 'package:nutrijourney/screen/mainPart/tarif_anasayfa.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -165,7 +164,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Get.to(() => const HomeScreen());
               break;
             case 1:
-              //Get.to(() => const RecipeListScreen());
+              Get.to(() => const ChatScreen());
               break;
             case 2:
               Get.to(() => const ProfileScreen());

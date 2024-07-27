@@ -27,11 +27,11 @@ class _CalorieControlScreenState extends State<CalorieControlScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calorie Control'),
+        title: const Text('Kalori Kontrol'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // Geri düğmesi işlevi
+            Navigator.pop(context); // Geri düğmesi işlevi
           },
         ),
         actions: [
@@ -53,12 +53,12 @@ class _CalorieControlScreenState extends State<CalorieControlScreen> {
             ),
             const SizedBox(height: 16),
             const Text(
-              'Somon Fish',
+              'Somon Balığı',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             const Text(
-              'High protein main meal',
+              'Yüksek proteinli ana yemek',
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 16),
@@ -69,24 +69,24 @@ class _CalorieControlScreenState extends State<CalorieControlScreen> {
               maxAmount: 10,
             ),
             const NutrientInfoBar(
-              nutrient: 'Carbs',
+              nutrient: 'Karbonhidrat',
               amount: 4.3,
               color: Colors.orange,
               maxAmount: 10,
             ),
             const NutrientInfoBar(
-              nutrient: 'Fat',
+              nutrient: 'Yağ',
               amount: 1.2,
               color: Colors.purple,
               maxAmount: 10,
             ),
             const SizedBox(height: 16),
             const Text(
-              'Total',
+              'Toplam',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const Text(
-              '104.6 calories',
+              '104.6 kalori',
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
           ],
