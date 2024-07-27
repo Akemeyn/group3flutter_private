@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:nutrijourney/screen/mainPart/besinler.dart';
 import 'package:nutrijourney/screen/mainPart/chatbot.dart';
 import 'package:nutrijourney/screen/mainPart/profile.dart';
-import 'package:nutrijourney/screen/mainPart/tarif_anasayfa.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,17 +14,77 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  final List<Map<String, String>> healthyFoods = [
+    {
+      'title': 'Avokado Tostu',
+      'calories': '140 kcal',
+      'imageUrl': 'https://via.placeholder.com/150'
+    },
+    {
+      'title': 'Sebze Karışımı',
+      'calories': '260 kcal',
+      'imageUrl': 'https://via.placeholder.com/150'
+    },
+    {
+      'title': 'Yulaf Ezmesi',
+      'calories': '200 kcal',
+      'imageUrl': 'https://via.placeholder.com/150'
+    },
+    {
+      'title': 'Yoğurt',
+      'calories': '100 kcal',
+      'imageUrl': 'https://via.placeholder.com/150'
+    },
+    {
+      'title': 'Meyve Tabağı',
+      'calories': '150 kcal',
+      'imageUrl': 'https://via.placeholder.com/150'
+    },
+    {
+      'title': 'Somon',
+      'calories': '220 kcal',
+      'imageUrl': 'https://via.placeholder.com/150'
+    },
+  ];
+
+  final List<Map<String, String>> newFoods = [
+    {
+      'title': 'Sebze Karışımı',
+      'calories': '260 kcal',
+      'imageUrl': 'https://via.placeholder.com/150'
+    },
+    {
+      'title': 'Quinoa Salatası',
+      'calories': '250 kcal',
+      'imageUrl': 'https://via.placeholder.com/150'
+    },
+    {
+      'title': 'Chia Pudding',
+      'calories': '180 kcal',
+      'imageUrl': 'https://via.placeholder.com/150'
+    },
+    {
+      'title': 'Tavuk Göğsü',
+      'calories': '210 kcal',
+      'imageUrl': 'https://via.placeholder.com/150'
+    },
+    {
+      'title': 'Humus',
+      'calories': '150 kcal',
+      'imageUrl': 'https://via.placeholder.com/150'
+    },
+    {
+      'title': 'Kinoa',
+      'calories': '230 kcal',
+      'imageUrl': 'https://via.placeholder.com/150'
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: const Text('Ana Sayfa'),
         leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () {},
@@ -43,133 +102,82 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Search Bar
-              TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide.none,
+              // Sağlıklı Besinler Bölümü
+              const Text(
+                'Sağlıklı Besinler',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                ),
+              ),
+              const SizedBox(height: 8.0),
+              SizedBox(
+                height: 200.0,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: healthyFoods.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: FoodCard(
+                        title: healthyFoods[index]['title']!,
+                        calories: healthyFoods[index]['calories']!,
+                        imageUrl: healthyFoods[index]['imageUrl']!,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 16.0),
+
+              // Yeni Besinler Bölümü
+              const Text(
+                'Yeni Besinler',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                ),
+              ),
+              const SizedBox(height: 8.0),
+              SizedBox(
+                height: 200.0,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: newFoods.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: FoodCard(
+                        title: newFoods[index]['title']!,
+                        calories: newFoods[index]['calories']!,
+                        imageUrl: newFoods[index]['imageUrl']!,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 16.0),
+
+              // Nutrimate's Recommended Section
+              Center(
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0, vertical: 12.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
                   ),
-                  filled: true,
-                  fillColor: Colors.grey[200],
+                  onPressed: () {
+                    Get.to(() => const NutrimateScreen());
+                  },
+                  icon: const Icon(Icons.food_bank, color: Colors.white),
+                  label: const Text(
+                    'Nutrimate\'in Önerdikleri',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16.0),
-
-              // Healthy Food Section
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Nutrimate',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          const SizedBox(height: 8.0),
-                          const Text(
-                            'Sağlıklı Yaşam İçin Yapay Zekamızdan Yardım Alabilirsin',
-                            style: TextStyle(
-                              fontSize: 14.0,
-                            ),
-                          ),
-                          const SizedBox(height: 8.0),
-                          ElevatedButton(
-                            onPressed: () {
-                              Get.to(() => const ChatScreen());
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green, // Background color
-                              foregroundColor: Colors.white, // Text color
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                            ),
-                            child: const Text('-> Nutrimate <-'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 8.0),
-                    Image.network(
-                      'https://via.placeholder.com/50',
-                      width: 50,
-                      height: 50,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16.0),
-
-              // New Food Section
-              const Text(
-                'New Food',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              const SingleChildScrollView(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: FoodCard(
-                        title: 'Avocado toast',
-                        price: '\$18.00',
-                        calories: '140 kcal',
-                        imageUrl: 'https://via.placeholder.com/150',
-                      ),
-                    ),
-                    SizedBox(width: 8.0),
-                    Expanded(
-                      child: FoodCard(
-                        title: 'Vegetable mix',
-                        price: '\$22.50',
-                        calories: '260 kcal',
-                        imageUrl: 'https://via.placeholder.com/150',
-                      ),
-                    ),
-                    SizedBox(width: 8.0),
-                    Expanded(
-                      child: FoodCard(
-                        title: 'Vegetable mix',
-                        price: '\$22.50',
-                        calories: '260 kcal',
-                        imageUrl: 'https://via.placeholder.com/150',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16.0),
-
-              // Popular Food Section
-              const Text(
-                'Popular Food',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              const FoodCard(
-                title: 'Seasonal salad',
-                price: '\$14.50',
-                calories: '120 kcal',
-                imageUrl: 'https://via.placeholder.com/150',
               ),
             ],
           ),
@@ -179,11 +187,11 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Anasayfa',
+            label: 'Ana Sayfa',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.data_usage),
-            label: 'Detay',
+            label: 'Nutrimate',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -198,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Get.to(() => const HomeScreen());
               break;
             case 1:
-              //Get.to(() => const RecipeListScreen());
+              Get.to(() => const ChatScreen());
               break;
             case 2:
               Get.to(() => const ProfileScreen());
@@ -215,14 +223,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class FoodCard extends StatelessWidget {
   final String title;
-  final String price;
   final String calories;
   final String imageUrl;
 
   const FoodCard({
     super.key,
     required this.title,
-    required this.price,
     required this.calories,
     required this.imageUrl,
   });
@@ -239,7 +245,7 @@ class FoodCard extends StatelessWidget {
           Image.network(
             imageUrl,
             fit: BoxFit.cover,
-            width: double.infinity,
+            width: 150,
             height: 100,
           ),
           Padding(
@@ -254,8 +260,6 @@ class FoodCard extends StatelessWidget {
                     fontSize: 16.0,
                   ),
                 ),
-                const SizedBox(height: 4.0),
-                Text(price),
                 const SizedBox(height: 4.0),
                 Row(
                   children: [
