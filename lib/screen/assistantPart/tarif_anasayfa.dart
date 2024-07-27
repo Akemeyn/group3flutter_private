@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nutrijourney/screen/mainPart/mainScreen.dart';
-import 'package:nutrijourney/screen/mainPart/profile.dart';
-import 'package:nutrijourney/screen/mainPart/tarif.dart';
+import 'package:nutrijourney/screen/assistantPart/tarif.dart';
 
 class RecipeListScreen extends StatefulWidget {
   final String recipesJson;
@@ -16,7 +14,6 @@ class RecipeListScreen extends StatefulWidget {
 }
 
 class _RecipeListScreenState extends State<RecipeListScreen> {
-  int _selectedIndex = 1;
   String _selectedFilter = 'Tümü';
   late List<Map<String, String>> _recipes;
 
@@ -28,7 +25,6 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
     } catch (e) {
       // Hata durumunda boş liste atayabiliriz veya hata mesajı gösterebiliriz.
       _recipes = [];
-      print("JSON parse hatası: $e");
     }
   }
 
@@ -48,24 +44,6 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
     }).toList();
 
     return recipes;
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        Get.to(() => const HomeScreen());
-        break;
-      case 1:
-        Get.to(() => RecipeListScreen(recipesJson: widget.recipesJson));
-        break;
-      case 2:
-        Get.to(() => const ProfileScreen());
-        break;
-    }
   }
 
   List<Map<String, String>> get _filteredRecipes {
@@ -163,25 +141,6 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Anasayfa',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.data_usage),
-            label: 'Detay',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profil',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
       ),
     );
   }

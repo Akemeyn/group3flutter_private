@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nutrijourney/components/componentEditor.dart';
 import 'package:awesome_number_picker/awesome_number_picker.dart';
-import 'package:nutrijourney/screen/mainPart/barcodeScanner.dart';
-import 'package:nutrijourney/screen/mainPart/calorieControl.dart';
-import 'package:nutrijourney/screen/mainPart/tarif_anasayfa.dart';
+import 'package:nutrijourney/components/pageConttoller.dart';
+import 'package:nutrijourney/screen/assistantPart/barcodeScanner.dart';
+import 'package:nutrijourney/screen/assistantPart/calorieControl.dart';
+import 'package:nutrijourney/screen/assistantPart/tarif_anasayfa.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import '../../components/colorController.dart';
-import 'dart:convert';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -26,7 +26,6 @@ class _ChatScreenState extends State<ChatScreen> {
   String sex = "";
   final ScrollController scrollController = ScrollController();
 
-  //Öğün önerme kısmı
   String selectedMealType = "";
   String selectedFlavorType = "";
   String selectedCookingType = "";
@@ -255,6 +254,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final PageControllerManager pageControllerManager = Get.find();
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
@@ -264,16 +264,17 @@ class _ChatScreenState extends State<ChatScreen> {
         backgroundColor: ColorController.soDarkJungleGreen,
         title: Text(
           "NutriMate",
-          style: ComponentEditor.specialText(32, Colors.white),
+          style: ComponentEditor.specialText(screenHeight * 0.03, Colors.white),
         ),
         leading: Padding(
           padding: EdgeInsets.only(left: screenWidth * 0.025),
           child: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_rounded),
             color: Colors.white,
-            iconSize: screenHeight * 0.04,
             onPressed: () {
-              Get.back();
+              if (pageControllerManager.selectedIndex.value > 0) {
+                pageControllerManager.changePage(0);
+              }
             },
           ),
         ),
@@ -492,8 +493,7 @@ class _ChatScreenState extends State<ChatScreen> {
       messages.add(ComponentEditor.chatBotUserText(text, screenWidth, screenHeight));
       Future.delayed(const Duration(milliseconds: 500), () {
         setState(() {
-          messages
-              .add(ComponentEditor.chatBotNutriMateText("Özel istek seçimi yapar mısınız?", screenWidth, screenHeight));
+          messages.add(ComponentEditor.chatBotNutriMateText("Kaç kişilik bir tarif olsun?", screenWidth, screenHeight));
           messages.add(Column(
             children: portionTypes.asMap().entries.map((entry) {
               int idx = entry.key;

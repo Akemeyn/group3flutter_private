@@ -1,21 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nutrijourney/screen/mainPart/calorieControl.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const GetMaterialApp(
-      home: NutrimateScreen(),
-    );
-  }
-}
+import 'package:nutrijourney/components/colorController.dart';
+import 'package:nutrijourney/components/componentEditor.dart';
+import 'package:nutrijourney/screen/assistantPart/calorieControl.dart';
 
 class NutrimateScreen extends StatefulWidget {
   const NutrimateScreen({super.key});
@@ -28,13 +15,23 @@ class NutrimateScreen extends StatefulWidget {
 class _NutrimateScreenState extends State<NutrimateScreen> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nutrimate\'in Önerdiği Besinler'),
+        title: Text(
+          'NutriMate Önerileri',
+          style: ComponentEditor.specialText(screenHeight * 0.03, Colors.white),
+        ),
+        centerTitle: true,
+        backgroundColor: ColorController.soDarkJungleGreen,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_outlined,
+            color: Colors.white,
+          ),
           onPressed: () {
-            Navigator.of(context).pop();
+            Get.back();
           },
         ),
       ),
@@ -68,8 +65,7 @@ class NutrimateItem extends StatelessWidget {
   final String imageUrl;
   final String foodName;
 
-  const NutrimateItem(
-      {super.key, required this.imageUrl, required this.foodName});
+  const NutrimateItem({super.key, required this.imageUrl, required this.foodName});
 
   @override
   Widget build(BuildContext context) {

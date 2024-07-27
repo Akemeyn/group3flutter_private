@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     .signInWithEmailAndPassword(
                                         email: email, password: password);
                                 if (userResult.user?.email == email) {
-                                  Get.offAll(() => const HomeScreen());
+                                  Get.offAll(() => MainScreen());
                                 }
                               } catch (e) {
                                 print(e.toString());

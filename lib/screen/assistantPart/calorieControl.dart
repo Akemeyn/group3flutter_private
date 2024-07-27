@@ -1,47 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:nutrijourney/screen/mainPart/mainScreen.dart';
-import 'package:nutrijourney/screen/mainPart/profile.dart';
-import 'package:nutrijourney/screen/mainPart/tarif_anasayfa.dart';
+import 'package:nutrijourney/components/colorController.dart';
 
-class CalorieControlScreen extends StatefulWidget {
+class CalorieControlScreen extends StatelessWidget {
   const CalorieControlScreen({super.key});
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _CalorieControlScreenState createState() => _CalorieControlScreenState();
-}
-
-class _CalorieControlScreenState extends State<CalorieControlScreen> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      // Buraya ilgili navigasyon veya state güncelleme mantığını ekleyebilirsiniz
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kalori Kontrol'),
+        backgroundColor: ColorController.soDarkJungleGreen,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white,),
           onPressed: () {
-            Navigator.pop(context); // Geri düğmesi işlevi
+            Get.back();
           },
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () {
-              // Menü düğmesi işlevi
-            },
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -91,40 +65,6 @@ class _CalorieControlScreenState extends State<CalorieControlScreen> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Anasayfa',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.data_usage),
-            label: 'Detay',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profil',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              Get.to(() => const HomeScreen());
-              break;
-            case 1:
-              //Get.to(() => const RecipeListScreen());
-              break;
-            case 2:
-              Get.to(() => const ProfileScreen());
-              break;
-          }
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
       ),
     );
   }

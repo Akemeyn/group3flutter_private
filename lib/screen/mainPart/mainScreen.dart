@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nutrijourney/screen/mainPart/besinler.dart';
+import 'package:nutrijourney/components/colorController.dart';
+import 'package:nutrijourney/components/componentEditor.dart';
+import 'package:nutrijourney/components/pageConttoller.dart';
+import 'package:nutrijourney/screen/assistantPart/barcodeScanner.dart';
+import 'package:nutrijourney/screen/assistantPart/besinler.dart';
 import 'package:nutrijourney/screen/mainPart/chatbot.dart';
 import 'package:nutrijourney/screen/mainPart/profile.dart';
 
@@ -12,89 +16,47 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
+  final PageControllerManager pageControllerManager = Get.find();
 
   final List<Map<String, String>> healthyFoods = [
-    {
-      'title': 'Avokado Tostu',
-      'calories': '140 kcal',
-      'imageUrl': 'https://via.placeholder.com/150'
-    },
-    {
-      'title': 'Sebze Karışımı',
-      'calories': '260 kcal',
-      'imageUrl': 'https://via.placeholder.com/150'
-    },
-    {
-      'title': 'Yulaf Ezmesi',
-      'calories': '200 kcal',
-      'imageUrl': 'https://via.placeholder.com/150'
-    },
-    {
-      'title': 'Yoğurt',
-      'calories': '100 kcal',
-      'imageUrl': 'https://via.placeholder.com/150'
-    },
-    {
-      'title': 'Meyve Tabağı',
-      'calories': '150 kcal',
-      'imageUrl': 'https://via.placeholder.com/150'
-    },
-    {
-      'title': 'Somon',
-      'calories': '220 kcal',
-      'imageUrl': 'https://via.placeholder.com/150'
-    },
+    {'title': 'Avokado Tostu', 'calories': '140 kcal', 'imageUrl': 'https://via.placeholder.com/150'},
+    {'title': 'Sebze Karışımı', 'calories': '260 kcal', 'imageUrl': 'https://via.placeholder.com/150'},
+    {'title': 'Yulaf Ezmesi', 'calories': '200 kcal', 'imageUrl': 'https://via.placeholder.com/150'},
+    {'title': 'Yoğurt', 'calories': '100 kcal', 'imageUrl': 'https://via.placeholder.com/150'},
+    {'title': 'Meyve Tabağı', 'calories': '150 kcal', 'imageUrl': 'https://via.placeholder.com/150'},
+    {'title': 'Somon', 'calories': '220 kcal', 'imageUrl': 'https://via.placeholder.com/150'},
   ];
 
   final List<Map<String, String>> newFoods = [
-    {
-      'title': 'Sebze Karışımı',
-      'calories': '260 kcal',
-      'imageUrl': 'https://via.placeholder.com/150'
-    },
-    {
-      'title': 'Quinoa Salatası',
-      'calories': '250 kcal',
-      'imageUrl': 'https://via.placeholder.com/150'
-    },
-    {
-      'title': 'Chia Pudding',
-      'calories': '180 kcal',
-      'imageUrl': 'https://via.placeholder.com/150'
-    },
-    {
-      'title': 'Tavuk Göğsü',
-      'calories': '210 kcal',
-      'imageUrl': 'https://via.placeholder.com/150'
-    },
-    {
-      'title': 'Humus',
-      'calories': '150 kcal',
-      'imageUrl': 'https://via.placeholder.com/150'
-    },
-    {
-      'title': 'Kinoa',
-      'calories': '230 kcal',
-      'imageUrl': 'https://via.placeholder.com/150'
-    },
+    {'title': 'Sebze Karışımı', 'calories': '260 kcal', 'imageUrl': 'https://via.placeholder.com/150'},
+    {'title': 'Quinoa Salatası', 'calories': '250 kcal', 'imageUrl': 'https://via.placeholder.com/150'},
+    {'title': 'Chia Pudding', 'calories': '180 kcal', 'imageUrl': 'https://via.placeholder.com/150'},
+    {'title': 'Tavuk Göğsü', 'calories': '210 kcal', 'imageUrl': 'https://via.placeholder.com/150'},
+    {'title': 'Humus', 'calories': '150 kcal', 'imageUrl': 'https://via.placeholder.com/150'},
+    {'title': 'Kinoa', 'calories': '230 kcal', 'imageUrl': 'https://via.placeholder.com/150'},
   ];
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ana Sayfa'),
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {},
+        title: Text(
+          'NutriJourney',
+          style: ComponentEditor.specialText(screenHeight * 0.03, Colors.white, FontWeight.bold),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () {},
+        centerTitle: true,
+        backgroundColor: ColorController.soDarkJungleGreen,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.barcode_reader,
+            color: Colors.white,
           ),
-        ],
+          onPressed: () {
+            Get.to(() => const BarcodeScanner());
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -163,8 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24.0, vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
@@ -182,40 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Ana Sayfa',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.data_usage),
-            label: 'Nutrimate',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profil',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              Get.to(() => const HomeScreen());
-              break;
-            case 1:
-              Get.to(() => const ChatScreen());
-              break;
-            case 2:
-              Get.to(() => const ProfileScreen());
-              break;
-          }
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
       ),
     );
   }
@@ -274,5 +201,56 @@ class FoodCard extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class MainScreen extends StatelessWidget {
+  final PageControllerManager pageControllerManager = Get.put(PageControllerManager());
+
+  @override
+  Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
+    return Obx(() => WillPopScope(
+          onWillPop: () async {
+            if (pageControllerManager.selectedIndex.value > 0) {
+              pageControllerManager.changePage(pageControllerManager.selectedIndex.value - 1);
+              return false;
+            }
+            return true;
+          },
+          child: Scaffold(
+            body: PageView(
+              controller: pageControllerManager.pageController,
+              children: [
+                HomeScreen(),
+                ChatScreen(),
+                ProfileScreen(),
+              ],
+              physics: const NeverScrollableScrollPhysics(),
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home, color: ColorController.jungleGreen),
+                  label: 'Ana Sayfa',
+                  backgroundColor: ColorController.jungleGreen,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.data_usage, color: ColorController.jungleGreen),
+                  label: "NutriMate",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person, color: ColorController.jungleGreen),
+                  label: 'Profil',
+                ),
+              ],
+              currentIndex: pageControllerManager.selectedIndex.value,
+              selectedItemColor: ColorController.jungleGreen,
+              onTap: (index) {
+                pageControllerManager.changePage(index);
+              },
+            ),
+          ),
+        ));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // TextInputFormatter için gerekli
 import 'package:get/get.dart';
+import 'package:nutrijourney/components/colorController.dart';
 import 'package:nutrijourney/screen/mainPart/profile.dart';
 
 class ProfileEditScreen extends StatefulWidget {
@@ -22,11 +23,11 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profil Düzenleme'),
+        backgroundColor: ColorController.soDarkJungleGreen,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white,),
           onPressed: () {
-            Get.to(() => const ProfileScreen());
+            Get.back();
           },
         ),
       ),
@@ -50,8 +51,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
               _buildTextField(Icons.monitor_weight, 'Kilo', _weightController,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly]),
               const SizedBox(height: 16),
-              _buildTextField(Icons.lock, 'Parola', _passwordController,
-                  isPassword: true),
+              _buildTextField(Icons.lock, 'Parola', _passwordController, isPassword: true),
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: () {
@@ -59,8 +59,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.grey,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 64),
+                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 64),
                 ),
                 child: const Text(
                   'Kaydet',
@@ -74,8 +73,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     );
   }
 
-  Widget _buildTextField(
-      IconData icon, String hintText, TextEditingController controller,
+  Widget _buildTextField(IconData icon, String hintText, TextEditingController controller,
       {bool isPassword = false, List<TextInputFormatter>? inputFormatters}) {
     return TextField(
       controller: controller,
@@ -99,8 +97,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
 //Textfield kısıtlama
 class LettersOnlyTextInputFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     final RegExp regex = RegExp(r'^[a-zA-Z]*$');
     if (regex.hasMatch(newValue.text)) {
       return newValue;

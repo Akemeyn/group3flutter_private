@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nutrijourney/screen/mainPart/chatbot.dart';
-import 'package:nutrijourney/screen/mainPart/mainScreen.dart';
+import 'package:nutrijourney/components/colorController.dart';
+import 'package:nutrijourney/components/pageConttoller.dart';
 import 'package:nutrijourney/screen/mainPart/profile_edit.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  int _selectedIndex = 2;
-
-  @override
   Widget build(BuildContext context) {
+    final PageControllerManager pageControllerManager = Get.find();
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profil'),
+        backgroundColor: ColorController.soDarkJungleGreen,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_outlined,
+            color: Colors.white,
+          ),
           onPressed: () {
-            Get.to(() => const HomeScreen());
+            if (pageControllerManager.selectedIndex.value > 0) {
+              pageControllerManager.changePage(0);
+            }
           },
         ),
       ),
@@ -46,8 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                   decoration: const BoxDecoration(
                     color: Colors.blue,
                     borderRadius: BorderRadius.only(
@@ -69,8 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                   decoration: const BoxDecoration(
                     color: Colors.green,
                     borderRadius: BorderRadius.only(
@@ -100,8 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 64),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 64),
               ),
               child: const Text(
                 'Profili Düzenle',
@@ -113,8 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onPressed: () {},
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 64),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 64),
               ),
               child: const Text(
                 '....................',
@@ -126,8 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onPressed: () {},
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.orange,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 64),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 64),
               ),
               child: const Text(
                 'Çıkış Yap',
@@ -136,41 +131,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Anasayfa',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.data_usage),
-            label: 'Detay',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profil',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-
-          switch (index) {
-            case 0:
-              Get.to(() => const HomeScreen());
-              break;
-            case 1:
-              Get.to(() => const ChatScreen());
-              break;
-            case 2:
-              Get.to(() => const ProfileScreen());
-              break;
-          }
-        },
       ),
     );
   }

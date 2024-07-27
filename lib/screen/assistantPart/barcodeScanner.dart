@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nutrijourney/screen/mainPart/detailControl.dart';
+import 'package:nutrijourney/screen/assistantPart/detailControl.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:nutrijourney/components/colorController.dart';
@@ -13,8 +13,6 @@ class BarcodeScanner extends StatefulWidget {
 }
 
 class _BarcodeScannerState extends State<BarcodeScanner> {
-  String _scanBarcodeResult = '';
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -31,6 +29,11 @@ class _BarcodeScannerState extends State<BarcodeScanner> {
             Get.back();
           },
         ),
+        title: const Icon(
+          Icons.barcode_reader,
+          color: Colors.white,
+        ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -45,7 +48,7 @@ class _BarcodeScannerState extends State<BarcodeScanner> {
                 ),
                 child: Text(
                   "Barkod Okuma Talimatları",
-                  style: ComponentEditor.specialText(screenWidth * 0.05, Colors.black, FontWeight.bold),
+                  style: ComponentEditor.specialText(screenWidth * 0.045, Colors.black, FontWeight.bold),
                 ),
               ),
               ...instructions(
@@ -63,7 +66,7 @@ class _BarcodeScannerState extends State<BarcodeScanner> {
                   screenHeight,
                   screenWidth),
               Padding(
-                padding: EdgeInsets.only(top: screenHeight * 0.01),
+                padding: EdgeInsets.only(top: screenHeight * 0.1),
                 child: SizedBox(
                   height: screenHeight * 0.06,
                   child: ElevatedButton(
@@ -90,11 +93,6 @@ class _BarcodeScannerState extends State<BarcodeScanner> {
                       )),
                 ),
               ),
-              SizedBox(height: screenHeight * 0.02),
-              Text(
-                "Barkod Sonucu: $_scanBarcodeResult",
-                style: ComponentEditor.specialText(18, Colors.black),
-              ),
             ],
           ),
         ),
@@ -109,7 +107,7 @@ class _BarcodeScannerState extends State<BarcodeScanner> {
         child: Text(
           text1,
           style: ComponentEditor.specialText(
-            screenWidth * 0.045,
+            screenWidth * 0.04,
             Colors.black,
             FontWeight.bold,
           ),
@@ -120,7 +118,7 @@ class _BarcodeScannerState extends State<BarcodeScanner> {
         child: Text(
           text2,
           style: ComponentEditor.specialText(
-            screenWidth * 0.036,
+            screenWidth * 0.035,
             Colors.black,
           ),
         ),
@@ -130,7 +128,7 @@ class _BarcodeScannerState extends State<BarcodeScanner> {
         child: Text(
           text3,
           style: ComponentEditor.specialText(
-            screenWidth * 0.036,
+            screenWidth * 0.035,
             Colors.black,
           ),
         ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nutrijourney/components/colorController.dart';
 import 'package:nutrijourney/components/componentEditor.dart';
-import 'package:nutrijourney/screen/mainPart/calorieControl.dart';
+import 'package:nutrijourney/screen/assistantPart/calorieControl.dart';
 
 class RecipePage extends StatelessWidget {
   final String name;
@@ -23,20 +24,13 @@ class RecipePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorController.soDarkJungleGreen,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop(); // Go back to the previous screen
+            Get.back(); // Go back to the previous screen
           },
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.favorite_border),
-            onPressed: () {
-              // Like button functionality
-            },
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

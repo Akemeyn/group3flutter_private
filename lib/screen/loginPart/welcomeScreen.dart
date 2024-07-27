@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:nutrijourney/components/colorController.dart';
+import 'package:nutrijourney/screen/assistantPart/barcodeScanner.dart';
 import 'package:nutrijourney/screen/loginPart/loginScreen.dart';
 import 'package:nutrijourney/screen/loginPart/registerScreen.dart';
 
@@ -26,63 +27,76 @@ class WelcomeScreen extends StatelessWidget {
           ),
         ),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SizedBox(height: screenHeight * 0.02),
-              Text(
-                'Her diyet\nbir serüvendir',
-                style: GoogleFonts.notoSans(
-                  textStyle: const TextStyle(
-                    fontSize: 48,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.only(bottom: screenHeight * 0.05),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(height: screenHeight * 0.02),
+                Text(
+                  'Her diyet\nbir serüvendir',
+                  style: GoogleFonts.notoSans(
+                    textStyle: const TextStyle(
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
+                  textAlign: TextAlign.left,
                 ),
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(height: screenHeight * 0.25),
-              SizedBox(
-                width: screenWidth * 0.85,
-                height: screenHeight * 0.07,
-                child: OutlinedButton(
-                  onPressed: () {
-                    Get.to(() => const RegisterScreen());
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all<Color>(
-                        Colors.white.withOpacity(0.4)),
-                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24.0),
+                SizedBox(height: screenHeight * 0.25),
+                SizedBox(
+                  width: screenWidth * 0.85,
+                  height: screenHeight * 0.07,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Get.to(() => const RegisterScreen());
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all<Color>(Colors.white.withOpacity(0.4)),
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24.0),
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      'Serüvenine başla',
+                      style: GoogleFonts.notoSans(
+                        textStyle: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Get.to(() => const LoginScreen());
+                  },
                   child: Text(
-                    'Serüvenine başla',
-                    style: GoogleFonts.notoSans(
-                      textStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ),
+                    'Zaten bir hesabım var',
+                    style: GoogleFonts.notoSans(fontSize: 16),
+                  ),
+                  style: ButtonStyle(
+                    foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
                   ),
                 ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Get.to(() => const LoginScreen());
-                },
-                child: Text(
-                  'Zaten bir hesabım var',
-                  style: GoogleFonts.notoSans(fontSize: 16),
-                ),
-                style: ButtonStyle(
-                  foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
-                ),
-              ),
-              SizedBox(height: screenHeight * 0.25),
-            ],
+                SizedBox(height: screenHeight * 0.2),
+                CircleAvatar(
+                  backgroundColor: Colors.white.withOpacity(0.6), // Arka plan rengini belirleyin
+                  radius: screenHeight * 0.035, // Yarıçapı belirleyin
+                  child: IconButton(
+                    onPressed: () {
+                      Get.to(() => const BarcodeScanner());
+                    },
+                    icon: Icon(
+                      Icons.barcode_reader,
+                      size: screenHeight * 0.05,
+                      color: ColorController.soDarkJungleGreen,
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

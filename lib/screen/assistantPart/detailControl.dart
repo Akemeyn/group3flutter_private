@@ -13,22 +13,39 @@ class FoodDetailPage extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
+    // Veritabanı ve açıklamalar (bu veriler genellikle bir backend'den alınır)
     final Map<String, Map<String, String>> productDetails = {
       "8690526074825": {
         "name": "Eti Gong",
         "ingredients": "Mısır %37,7, Pirinç %34, Bitkisel yağ (palm), Tuz, Şeker",
+        "calories": "444",
+        "fat": "15.6",
+        "carbohydrates": "68.9",
+        "protein": "5.1"
       },
       "8680908020038": {
         "name": "Indomie Sebzeli Hazır Noodle",
         "ingredients": "Buğday Unu(Glüten), Palm Yağı, Tuz, Asitlik Düzenleyici, Sebze Tozu",
+        "calories": "353",
+        "fat": "15",
+        "carbohydrates": "46",
+        "protein": "8"
       },
       "8690579991117": {
         "name": "Barilla Spagetti Makarna (500 g)",
         "ingredients": "Durum Buğdayı İrmiği, Su",
+        "calories": "359",
+        "fat": "2",
+        "carbohydrates": "70.2",
+        "protein": "13.5"
       },
       "8690637977619": {
         "name": "Atelier Gelarto Ekvador Çikolatalı Dondurma (430 ml)",
         "ingredients": "Süt, Şeker, Kakao Kitlesi, Kakao Yağı, Emülgatör, Aroma Verici",
+        "calories": "320",
+        "fat": "20",
+        "carbohydrates": "32",
+        "protein": "5"
       }
     };
 
@@ -52,6 +69,7 @@ class FoodDetailPage extends StatelessWidget {
       "Aroma Verici": "Aroma vericiler, gıdalara istenilen tadı ve kokuyu vermek için kullanılır.",
     };
 
+    // Ürün bilgilerini al
     final product = productDetails[barcode];
 
     List<Widget> ingredientWidgets = [];
@@ -105,6 +123,95 @@ class FoodDetailPage extends StatelessWidget {
                     style: ComponentEditor.specialText(16, Colors.black, FontWeight.bold),
                   ),
                   ...ingredientWidgets,
+                  SizedBox(height: screenHeight * 0.02),
+                  Text(
+                    "Besin Değerleri:",
+                    style: ComponentEditor.specialText(16, Colors.black, FontWeight.bold),
+                  ),
+                  SizedBox(height: screenHeight * 0.01),
+                  Table(
+                    border: TableBorder.all(color: Colors.black),
+                    columnWidths: const {
+                      0: FlexColumnWidth(1),
+                      1: FlexColumnWidth(1),
+                      2: FlexColumnWidth(1),
+                      3: FlexColumnWidth(1),
+                    },
+                    children: [
+                      TableRow(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Kalori (kcal)',
+                              style: ComponentEditor.specialText(16, Colors.black, FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Yağ (gr)',
+                              style: ComponentEditor.specialText(16, Colors.black, FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Karbonhidrat (gr)',
+                              style: ComponentEditor.specialText(16, Colors.black, FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Protein (gr)',
+                              style: ComponentEditor.specialText(16, Colors.black, FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              product['calories']!,
+                              style: ComponentEditor.specialText(16, Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              product['fat']!,
+                              style: ComponentEditor.specialText(16, Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              product['carbohydrates']!,
+                              style: ComponentEditor.specialText(16, Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              product['protein']!,
+                              style: ComponentEditor.specialText(16, Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ],
               )
             : Text(
