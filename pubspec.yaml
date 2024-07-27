@@ -17,10 +17,10 @@ dependencies:
   firebase_auth: ^5.1.2
   cloud_firestore: ^5.1.0
   awesome_number_picker: ^0.0.4
-  simple_barcode_scanner: ^0.0.8
-  flutter_barcode_scanner: ^2.0.0
+  simple_barcode_scanner: ^0.1.1
   flutter_gemini: ^2.0.4
   google_generative_ai: ^0.4.3
+  flutter_vision: ^1.1.4
 
 dev_dependencies:
   flutter_test:
