@@ -5,7 +5,7 @@ import 'package:awesome_number_picker/awesome_number_picker.dart';
 import 'package:nutrijourney/components/pageConttoller.dart';
 import 'package:nutrijourney/screen/assistantPart/barcodeScanner.dart';
 import 'package:nutrijourney/screen/assistantPart/calorieControl.dart';
-import 'package:nutrijourney/screen/assistantPart/tarif_anasayfa.dart';
+import 'package:nutrijourney/screen/assistantPart/recipeList.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import '../../components/colorController.dart';
 
@@ -24,6 +24,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final List<Widget> messages = [];
   double selectedWeight = 0.0;
   String sex = "";
+  int activityLevel = 0;
   final ScrollController scrollController = ScrollController();
 
   String selectedMealType = "";
@@ -42,6 +43,30 @@ class _ChatScreenState extends State<ChatScreen> {
   String scenario2 = "Kalori Hesaplamak İstiyorum";
   String scenario3 = "Bana Bir Öğün Öner";
   String scenario4 = "Günlük Su Miktarı Hesaplama";
+
+  final List<String> activityDescriptions = [
+    "Hiç hareket etmiyorum",
+    "Az hareket ediyorum",
+    "Orta seviyede hareket ediyorum",
+    "Çok hareket ediyorum",
+    "Aşırı hareket ediyorum"
+  ];
+
+  void calculateWaterIntake(double screenWidth, double screenHeight) {
+    double waterIntake;
+    if (sex == "Kadın") {
+      waterIntake = selectedWeight * 0.033;
+    } else {
+      waterIntake = selectedWeight * 0.035;
+    }
+
+    // Aktivite seviyesine göre ekleme yap
+    waterIntake += activityLevel * 0.2;
+
+    messages.add(ComponentEditor.chatBotNutriMateText(
+        "Günlük su ihtiyacınız yaklaşık olarak ${waterIntake.toStringAsFixed(2)} litre.", screenWidth, screenHeight));
+    _scrollToBottom();
+  }
 
   @override
   void initState() {
@@ -76,7 +101,7 @@ class _ChatScreenState extends State<ChatScreen> {
     if (scenario == scenario1) {
       Get.to(() => const BarcodeScanner());
     } else if (scenario == scenario2) {
-      Get.to(() => const CalorieControlScreen());
+      //Get.to(() => const CalorieControlScreen());
     } else if (scenario == scenario3) {
       setState(() {
         removeLastWidgets(2);
@@ -177,6 +202,33 @@ class _ChatScreenState extends State<ChatScreen> {
                                             "Günlük aktivitenizi 1 ile 5 arasında seçer misiniz?",
                                             screenWidth,
                                             screenHeight));
+                                        messages.add(Column(
+                                          children: List.generate(5, (index) {
+                                            return ElevatedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  activityLevel = index + 1;
+                                                  messages.removeLast();
+                                                  messages.add(ComponentEditor.chatBotUserText(
+                                                      "Günlük aktivite seviyem: ${index + 1} - ${activityDescriptions[index]}",
+                                                      screenWidth,
+                                                      screenHeight));
+                                                  calculateWaterIntake(screenWidth, screenHeight);
+                                                });
+                                                _scrollToBottom();
+                                              },
+                                              child: Text(
+                                                "${index + 1} - ${activityDescriptions[index]}",
+                                                style: ComponentEditor.specialText(18, Colors.white),
+                                              ),
+                                              style: ButtonStyle(
+                                                backgroundColor: WidgetStateProperty.all<Color>(
+                                                  ColorController.soDarkJungleGreen.withOpacity(0.8),
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                        ));
                                       });
                                       _scrollToBottom();
                                     },
@@ -209,6 +261,33 @@ class _ChatScreenState extends State<ChatScreen> {
                                             "Günlük aktivitenizi 1 ile 5 arasında seçer misiniz?",
                                             screenWidth,
                                             screenHeight));
+                                        messages.add(Column(
+                                          children: List.generate(5, (index) {
+                                            return ElevatedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  activityLevel = index + 1;
+                                                  messages.removeLast();
+                                                  messages.add(ComponentEditor.chatBotUserText(
+                                                      "Günlük aktivite seviyem: ${index + 1} - ${activityDescriptions[index]}",
+                                                      screenWidth,
+                                                      screenHeight));
+                                                  calculateWaterIntake(screenWidth, screenHeight);
+                                                });
+                                                _scrollToBottom();
+                                              },
+                                              child: Text(
+                                                "${index + 1} - ${activityDescriptions[index]}",
+                                                style: ComponentEditor.specialText(18, Colors.white),
+                                              ),
+                                              style: ButtonStyle(
+                                                backgroundColor: WidgetStateProperty.all<Color>(
+                                                  ColorController.soDarkJungleGreen.withOpacity(0.8),
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                        ));
                                       });
                                       _scrollToBottom();
                                     },
@@ -255,7 +334,6 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     final PageControllerManager pageControllerManager = Get.find();
-    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -266,17 +344,14 @@ class _ChatScreenState extends State<ChatScreen> {
           "NutriMate",
           style: ComponentEditor.specialText(screenHeight * 0.03, Colors.white),
         ),
-        leading: Padding(
-          padding: EdgeInsets.only(left: screenWidth * 0.025),
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded),
-            color: Colors.white,
-            onPressed: () {
-              if (pageControllerManager.selectedIndex.value > 0) {
-                pageControllerManager.changePage(0);
-              }
-            },
-          ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+          color: Colors.white,
+          onPressed: () {
+            if (pageControllerManager.selectedIndex.value > 0) {
+              pageControllerManager.changePage(0);
+            }
+          },
         ),
       ),
       body: SingleChildScrollView(

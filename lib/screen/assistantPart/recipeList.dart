@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nutrijourney/screen/mainPart/mainScreen.dart';
-import 'package:nutrijourney/screen/assistantPart/tarif.dart';
+import 'package:nutrijourney/screen/assistantPart/recipe.dart';
 
 class RecipeListScreen extends StatefulWidget {
   final String recipesJson;
@@ -126,11 +126,11 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                 final recipe = _filteredRecipes[index];
                 return GestureDetector(
                   onTap: () {
-                    Get.to(() => RecipePage(
+                    /* Get.to(() => RecipePage(
                           name: recipe['name']!,
                           ingredients: recipe['ingredients']!,
                           construction: recipe['construction']!,
-                        ));
+                        )); */
                   },
                   child: RecipeCard(
                     title: recipe['name']!,

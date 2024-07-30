@@ -71,7 +71,7 @@ class _BarcodeScannerState extends State<BarcodeScanner> {
                   height: screenHeight * 0.06,
                   child: ElevatedButton(
                       onPressed: () async {
-                        var res = await Navigator.push(
+                        /* var res = await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => const SimpleBarcodeScannerPage(
@@ -79,7 +79,8 @@ class _BarcodeScannerState extends State<BarcodeScanner> {
                                 lineColor: "#58D68D",
                                 isShowFlashIcon: true,
                               ),
-                            ));
+                            )); */
+                        var res = "8690526074825";
                         if (res != null) {
                           Get.to(() => FoodDetailPage(barcode: res));
                         }

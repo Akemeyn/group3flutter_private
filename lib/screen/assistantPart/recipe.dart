@@ -8,27 +8,40 @@ class RecipePage extends StatelessWidget {
   final String name;
   final String ingredients;
   final String construction;
+  final String protein;
+  final String carbs;
+  final String fat;
+  final String imageUrl;
+  final String calories;
 
   const RecipePage({
     super.key,
     required this.name,
     required this.ingredients,
     required this.construction,
+    required this.protein,
+    required this.carbs,
+    required this.fat,
+    required this.imageUrl,
+    required this.calories,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Malzemeleri ve yapılış adımlarını virgülle ayırarak listeye dönüştür
     List<String> ingredientList = ingredients.split(', ');
-    List<String> constructionList = construction.split('. ');
+    List<String> constructionList = construction.split(',,, ');
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorController.soDarkJungleGreen,
+        title: Text(name, style: ComponentEditor.specialText(24, Colors.white),),
+        centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white,),
           onPressed: () {
-            Get.back(); // Go back to the previous screen
+            Get.back();
           },
         ),
       ),
@@ -39,37 +52,27 @@ class RecipePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
-                height: 180,
-                width: 120,
+                height: screenHeight * 0.26,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey[300],
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    'https://cdn.yemek.com/mnresize/940/940/uploads/2023/03/iki-renkli-kek-onecikan.jpg',
+                    imageUrl,
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
               const SizedBox(height: 20),
-              Text(
+              /* Text(
                 name,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Get.to(() => const CalorieControlScreen()); // Navigate to CalorieControlScreen
-                },
-                child: const Text('Kaloriyi kontrol et'),
-              ),
-              const SizedBox(height: 20),
+              ), */
               const Text(
                 'Malzemeler:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -87,15 +90,34 @@ class RecipePage extends StatelessWidget {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    constructionList.asMap().entries.map((entry) {
-                      int idx = entry.key + 1;
-                      String step = entry.value.trim();
-                      return "$step. ";
-                    }).join(""),
-                    style: ComponentEditor.specialText(16, Colors.black),
-                  ),
+                  ...constructionList
+                      .asMap()
+                      .entries
+                      .map((entry) => Text(
+                            '${entry.key + 1}- ${entry.value}',
+                            style: ComponentEditor.specialText(16, Colors.black),
+                          ))
+                      .toList(),
                 ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: screenHeight * 0.02),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorController.darkJungleGreen.withOpacity(0.8),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13))),
+                  onPressed: () {
+                    Get.to(() => CalorieControlScreen(
+                          protein: protein,
+                          carbs: carbs,
+                          fat: fat,
+                          imageUrl: imageUrl,
+                          calories: calories,
+                          name: name,
+                        ));
+                  },
+                  child: Text('Kaloriyi kontrol et', style: ComponentEditor.specialText(20, Colors.white),),
+                ),
               ),
             ],
           ),

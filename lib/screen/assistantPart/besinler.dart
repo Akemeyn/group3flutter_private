@@ -47,7 +47,7 @@ class _NutrimateScreenState extends State<NutrimateScreen> {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                Get.to(() => const CalorieControlScreen());
+               /*  Get.to(() => const CalorieControlScreen()); */
               },
               child: NutrimateItem(
                 imageUrl: 'https://via.placeholder.com/150', // Görsel için URL

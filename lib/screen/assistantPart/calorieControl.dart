@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nutrijourney/components/colorController.dart';
+import 'package:nutrijourney/components/componentEditor.dart';
 
 class CalorieControlScreen extends StatelessWidget {
-  const CalorieControlScreen({super.key});
+  final String protein;
+  final String carbs;
+  final String fat;
+  final String imageUrl;
+  final String calories;
+  final String name;
+
+  const CalorieControlScreen({
+    super.key,
+    required this.protein,
+    required this.carbs,
+    required this.fat,
+    required this.imageUrl,
+    required this.calories,
+    required this.name,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +27,10 @@ class CalorieControlScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: ColorController.soDarkJungleGreen,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white,),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_outlined,
+            color: Colors.white,
+          ),
           onPressed: () {
             Get.back();
           },
@@ -22,46 +41,41 @@ class CalorieControlScreen extends StatelessWidget {
         child: Column(
           children: [
             Image.network(
-              'https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_1280.jpg', // Bu URL'yi kendi resminizle değiştirin
+              imageUrl,
               height: 200,
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Somon Balığı',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Yüksek proteinli ana yemek',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+            Text(
+              name,
+              style: ComponentEditor.specialText(24, Colors.black, FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            const NutrientInfoBar(
+            NutrientInfoBar(
               nutrient: 'Protein',
-              amount: 9.7,
+              amount: double.parse(protein),
               color: Colors.green,
-              maxAmount: 10,
+              maxAmount: 50,
             ),
-            const NutrientInfoBar(
+            NutrientInfoBar(
               nutrient: 'Karbonhidrat',
-              amount: 4.3,
+              amount: double.parse(carbs),
               color: Colors.orange,
-              maxAmount: 10,
+              maxAmount: 50,
             ),
-            const NutrientInfoBar(
+            NutrientInfoBar(
               nutrient: 'Yağ',
-              amount: 1.2,
+              amount: double.parse(fat),
               color: Colors.purple,
-              maxAmount: 10,
+              maxAmount: 50,
             ),
             const SizedBox(height: 16),
             const Text(
               'Toplam',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            const Text(
-              '104.6 kalori',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+            Text(
+              calories,
+              style: ComponentEditor.specialText(20, Colors.black),
             ),
           ],
         ),
