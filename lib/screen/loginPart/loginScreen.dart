@@ -16,7 +16,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   double _keyboardVisibleHeight = 0;
   bool passwordVisible = true;
-  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final firebaseAuth = FirebaseAuth.instance;
@@ -66,14 +66,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: EdgeInsets.symmetric(
                             horizontal: screenWidth * 0.075),
                         child: ComponentEditor.textFieldInStart(
-                            "Kullanıcı Adı",
+                            "E-Posta",
                             const Icon(
                               Icons.person,
                               color: ColorController.soDarkJungleGreen,
                             ),
                             false,
                             TextInputType.emailAddress,
-                            usernameController, (value) {
+                            emailController, (value) {
                           if (value == null || value.isEmpty) {
                             return 'Bilgileri eksiksiz doldurunuz';
                           }
@@ -137,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              String email = usernameController.text;
+                              String email = emailController.text;
                               String password = passwordController.text;
                               try {
                                 final userResult = await firebaseAuth

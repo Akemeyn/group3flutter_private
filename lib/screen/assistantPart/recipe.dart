@@ -17,13 +17,13 @@ class RecipePage extends StatelessWidget {
   const RecipePage({
     super.key,
     required this.name,
-    required this.ingredients,
-    required this.construction,
-    required this.protein,
-    required this.carbs,
-    required this.fat,
-    required this.imageUrl,
-    required this.calories,
+    this.ingredients = '',
+    this.construction = '',
+    this.protein = '',
+    this.carbs = '',
+    this.fat = '',
+    this.imageUrl = 'https://via.placeholder.com/150',
+    this.calories = '',
   });
 
   @override
@@ -36,10 +36,16 @@ class RecipePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorController.soDarkJungleGreen,
-        title: Text(name, style: ComponentEditor.specialText(24, Colors.white),),
+        title: Text(
+          name,
+          style: ComponentEditor.specialText(24, Colors.white),
+        ),
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white,),
+          icon: const Icon(
+            Icons.arrow_back_ios_rounded,
+            color: Colors.white,
+          ),
           onPressed: () {
             Get.back();
           },
@@ -104,8 +110,8 @@ class RecipePage extends StatelessWidget {
                 padding: EdgeInsets.only(top: screenHeight * 0.02),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorController.darkJungleGreen.withOpacity(0.8),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13))),
+                      backgroundColor: ColorController.darkJungleGreen.withOpacity(0.8),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13))),
                   onPressed: () {
                     Get.to(() => CalorieControlScreen(
                           protein: protein,
@@ -116,7 +122,10 @@ class RecipePage extends StatelessWidget {
                           name: name,
                         ));
                   },
-                  child: Text('Kaloriyi kontrol et', style: ComponentEditor.specialText(20, Colors.white),),
+                  child: Text(
+                    'Kaloriyi kontrol et',
+                    style: ComponentEditor.specialText(20, Colors.white),
+                  ),
                 ),
               ),
             ],

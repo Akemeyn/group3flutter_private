@@ -126,11 +126,11 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                 final recipe = _filteredRecipes[index];
                 return GestureDetector(
                   onTap: () {
-                    /* Get.to(() => RecipePage(
+                    Get.to(() => RecipePage(
                           name: recipe['name']!,
                           ingredients: recipe['ingredients']!,
                           construction: recipe['construction']!,
-                        )); */
+                        ));
                   },
                   child: RecipeCard(
                     title: recipe['name']!,
