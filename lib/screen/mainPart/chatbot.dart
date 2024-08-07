@@ -629,7 +629,7 @@ class _ChatScreenState extends State<ChatScreen> {
     String dietType = selectedDietType != "NutriMate karar versin" ? selectedDietType : "";
     String portion = selectedPortion != "NutriMate karar versin" ? selectedPortion : "";
 
-    final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: 'AIzaSyBxc-GDn-WWrc0PFwBmDECQwdWwBY_k5qo');
+    final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: '');
 
     String prompt = '''
   Sadece name, ingredients ve construction'ı doldurup bana JSON formatında geri doldur, bu şekilde bana 6 farklı tarif öner
